@@ -331,7 +331,7 @@ b{font-weight:600}
 <body>
 
 <canvas id="confetti"></canvas>
-<audio id="song" src="music/song.mp3" preload="auto"></audio>
+<audio id="song" src="music/song.mp3#t=4" preload="auto"></audio>
 <button class="vinyl" id="vinyl" aria-label="play or pause music"></button>
 
 <!-- 0. start -->
@@ -666,7 +666,7 @@ function fadeIn(){
   let v = 0; song.volume = 0;
   const t = setInterval(() => { v = Math.min(.85, v + .05); song.volume = v; if (v >= .85) clearInterval(t); }, 120);
 }
-const SONG_START = 0; // seconds into the track
+const SONG_START = 4; // seconds into the track
 let songStarted = false;
 let loopFrom = SONG_START;
 song.addEventListener('ended', () => { song.currentTime = loopFrom; song.play().catch(() => {}); });
