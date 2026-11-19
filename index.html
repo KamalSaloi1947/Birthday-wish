@@ -286,6 +286,17 @@ b{font-weight:600}
 .pending{display:flex; flex-direction:column; align-items:center; gap:16px}
 .pending p{font-size:16px}
 .whisky{width:220px; display:block}
+.track{display:flex; align-items:center; gap:12px; background:var(--card); border-radius:999px; padding:8px 24px 8px 8px; text-align:left; box-shadow:0 4px 14px rgba(94,26,48,.12)}
+.track b{display:block; font-size:16px}
+.track span{display:block; font-size:12px; opacity:.7}
+.playbtn{flex:none; width:52px; height:52px; border-radius:50%; border:0; background:var(--btn); display:grid; place-items:center; cursor:pointer; transition:transform .1s}
+.playbtn:active{transform:scale(.92)}
+.playbtn svg{width:24px; height:24px; fill:var(--btn-text)}
+.ic-pause{display:none}
+.track.playing .ic-play{display:none}
+.track.playing .ic-pause{display:block}
+.track.playing .playbtn{animation:beat 1s ease-in-out infinite}
+@keyframes beat{50%{transform:scale(1.08)}}
 .stamp2{
   font-family:"Bagel Fat One"; font-size:28px; color:var(--tomato); border:3px solid var(--tomato); border-radius:6px;
   padding:4px 12px 6px; transform:rotate(-6deg); animation:slam2 .45s cubic-bezier(.2,1.4,.4,1) both .3s
@@ -603,6 +614,13 @@ b{font-weight:600}
       </svg>
       <p>the last 1% is a party.<br>and it's pending. you get it when you come back.</p>
       <div class="stamp2">party: pending</div>
+      <div class="track" id="track">
+        <button class="playbtn" id="khudaBtn" aria-label="play khuda jaane">
+          <svg class="ic-play" viewBox="0 0 24 24"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.2-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>
+          <svg class="ic-pause" viewBox="0 0 24 24"><rect x="6.5" y="5" width="4" height="14" rx="1.5"/><rect x="13.5" y="5" width="4" height="14" rx="1.5"/></svg>
+        </button>
+        <div><b>khuda jaane</b><span>one more song, for the ending</span></div>
+      </div>
       <button class="link" onclick="location.reload()">play it all again</button>
     </div>
   </div>
@@ -650,7 +668,28 @@ function fadeIn(){
 }
 const SONG_START = 0; // seconds into the track
 let songStarted = false;
-song.addEventListener('ended', () => { song.currentTime = SONG_START; song.play().catch(() => {}); });
+let loopFrom = SONG_START;
+song.addEventListener('ended', () => { song.currentTime = loopFrom; song.play().catch(() => {}); });
+
+/* ending: switch to khuda jaane */
+const KHUDA = 'music/khuda-jaane.mp3', KHUDA_START = 30;
+const isKhuda = () => song.src.includes('khuda-jaane');
+song.addEventListener('play',  () => { const t = document.getElementById('track'); if (t) t.classList.toggle('playing', isKhuda()); });
+song.addEventListener('pause', () => { const t = document.getElementById('track'); if (t) t.classList.remove('playing'); });
+document.addEventListener('click', e => {
+  if (!e.target.closest('#khudaBtn')) return;
+  if (!isKhuda()){
+    songStarted = true; loopFrom = KHUDA_START;
+    song.src = KHUDA + '#t=' + KHUDA_START;
+    song.addEventListener('loadedmetadata', () => { if (song.currentTime < KHUDA_START) song.currentTime = KHUDA_START; }, { once: true });
+    song.volume = .85;
+    song.play().then(() => { vinyl.classList.add('spin', 'show'); vinyl.classList.remove('off'); }).catch(() => {});
+  } else if (song.paused){
+    song.play().then(() => { vinyl.classList.add('spin'); vinyl.classList.remove('off'); }).catch(() => {});
+  } else {
+    song.pause(); vinyl.classList.remove('spin'); vinyl.classList.add('off');
+  }
+});
 function playSong(){
   if (!songStarted){ songStarted = true; try { if (song.currentTime < SONG_START) song.currentTime = SONG_START; } catch (e) {} }
   const p = song.play();
