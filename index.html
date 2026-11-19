@@ -171,7 +171,9 @@ b{font-weight:600}
 .mini-flame{transform-box:fill-box; transform-origin:50% 100%; animation:windy .1s infinite alternate}
 .meter{width:200px; height:12px; border:2px solid var(--ink); border-radius:99px; overflow:hidden; background:var(--card)}
 .meter i{display:block; height:100%; width:0; background:var(--tomato); transition:width .1s}
-.cake-actions{display:flex; flex-direction:column; align-items:center; gap:4px}
+.cake-actions{display:flex; flex-direction:column; align-items:center; gap:12px}
+.btn.sec{background:#fff; color:var(--btn-text); box-shadow:inset 0 0 0 2px var(--btn); font-size:14px; font-weight:600; padding:10px 22px}
+.btn.sec:active{background:#FBE0E7}
 
 /* ---------- balloons ---------- */
 #s-balloons{align-items:flex-start}
@@ -485,7 +487,7 @@ b{font-weight:600}
     <div class="cake-actions" id="cakeActions">
       <button class="btn" id="wishBtn">done wishing</button>
       <button class="btn hide" id="micBtn">blow (use my mic)</button>
-      <button class="link hide" id="puffBtn">i'm in public. just give me a button.</button>
+      <button class="btn sec hide" id="puffBtn">i'm in public. just give me a button.</button>
     </div>
     <button class="btn hide" id="cakeNext" data-go="balloons">okay, now what</button>
   </div>
