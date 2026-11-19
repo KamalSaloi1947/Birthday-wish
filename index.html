@@ -51,11 +51,35 @@ b{font-weight:600}
 .link{background:none; border:0; font:inherit; font-size:13px; color:var(--ink); text-decoration:underline; text-underline-offset:3px; opacity:.7; cursor:pointer; padding:8px}
 
 /* ---------- start ---------- */
-#s-start .title{font-size:72px}
-#s-start .title span{display:inline-block; color:var(--tomato); transform:rotate(-3deg); margin-top:8px}
-#s-start p.lead{max-width:280px}
-.wobble{animation:wob 2.4s ease-in-out infinite}
-@keyframes wob{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(2deg) translateY(-2px)}}
+#s-start{background:repeating-linear-gradient(90deg, #FDECEF 0 28px, #FBE0E7 28px 56px)}
+.deco{position:absolute; inset:0; pointer-events:none; overflow:hidden}
+.blob{position:absolute; width:220px; height:200px; background:#F8C9D6; border-radius:58% 42% 63% 37% / 45% 55% 45% 55%}
+.blob.b1{left:-90px; top:-70px}
+.sun{position:absolute; right:-28px; top:-28px; width:120px; height:120px; z-index:1; animation:sunspin 30s linear infinite}
+@keyframes sunspin{to{transform:rotate(360deg)}}
+.shell{position:absolute; width:30px; transform:rotate(14deg)}
+.sea{position:absolute; left:0; right:0; bottom:0; height:64px}
+.sea svg{position:absolute; left:-10%; width:120%; height:40px}
+.sea svg:first-child{bottom:18px; animation:wave 4s ease-in-out infinite alternate}
+.sea svg:last-child{bottom:-2px; height:44px; animation:wave 3s ease-in-out infinite alternate-reverse}
+.sea::after{content:""; position:absolute; left:0; right:0; bottom:0; height:4px; background:#6FBBCB}
+@keyframes wave{to{transform:translateX(-7%)}}
+.st{position:absolute; height:auto; aspect-ratio:1; transform:rotate(var(--r)); animation:twinkle 2.6s ease-in-out infinite}
+.st:nth-child(odd){animation-delay:-1.3s}
+@keyframes twinkle{50%{transform:rotate(var(--r)) scale(.8)}}
+.sq{position:absolute; width:56px}
+.me{position:relative; width:150px; height:150px; margin-top:40px; animation:bobme 2.6s ease-in-out infinite}
+@keyframes bobme{50%{transform:translateY(-6px) rotate(2deg)}}
+.face{width:100%; height:100%; border-radius:50%; border:6px solid #fff; background:#F8D9E0 url(photos/aish.jpg) 50% 13%/300% no-repeat; box-shadow:0 0 0 2px var(--ink), 0 10px 20px rgba(94,26,48,.18); transform:rotate(-6deg)}
+.hat{position:absolute; width:58px; left:46px; top:-56px; transform:rotate(-14deg); z-index:1}
+.bubble{position:absolute; right:-62px; top:-8px; background:#fff; border:2px solid var(--ink); border-radius:16px; padding:4px 12px; font-weight:700; transform:rotate(8deg); z-index:2}
+.bubble::after{content:""; position:absolute; left:4px; bottom:-8px; width:12px; height:12px; background:#fff; border-left:2px solid var(--ink); border-bottom:2px solid var(--ink); transform:skewY(-30deg) rotate(-10deg)}
+.ask{font-size:clamp(26px,7.6vw,34px); color:var(--btn-text); margin-top:8px}
+.ask2{font-size:20px; font-weight:600; margin-top:-8px}
+.yn{display:flex; gap:16px; align-items:center; justify-content:center; min-height:64px}
+#startBtn{transition:transform .25s cubic-bezier(.3,1.6,.5,1), background .15s}
+.btn.no{background:#fff; color:var(--btn-text); box-shadow:inset 0 0 0 2px var(--btn); transition:left .25s ease, top .25s ease}
+.btn.no.loose{position:fixed; z-index:20; margin:0}
 
 /* ---------- captcha ---------- */
 .cap{width:100%; max-width:340px; background:var(--card); border:2px solid var(--ink); border-radius:4px; overflow:hidden; text-align:left}
@@ -115,6 +139,18 @@ b{font-weight:600}
 .stamp.show{animation:slam .45s cubic-bezier(.2,1.4,.4,1) forwards}
 @keyframes slam{to{opacity:1; transform:translate(-50%,-50%) rotate(-12deg) scale(1)}}
 
+.blowhow{width:200px; margin-bottom:-8px; animation:slipin2 .4s ease-out}
+.blowhow svg{display:block; width:100%}
+@keyframes slipin2{from{opacity:0; transform:translateY(-10px)}}
+.cheek{transform-box:fill-box; transform-origin:center; animation:puffc .9s ease-in-out infinite}
+@keyframes puffc{0%,100%{transform:scale(.8)}50%{transform:scale(1.35)}}
+.headlean{transform-box:fill-box; transform-origin:50% 100%; animation:lean .9s ease-in-out infinite}
+@keyframes lean{50%{transform:rotate(4deg) translateX(2px)}}
+.air path{stroke-dasharray:10 8; animation:airflow .5s linear infinite}
+.air path:nth-child(2){animation-duration:.6s; opacity:.7}
+.air path:nth-child(3){animation-duration:.7s; opacity:.5}
+@keyframes airflow{to{stroke-dashoffset:-36}}
+.mini-flame{transform-box:fill-box; transform-origin:50% 100%; animation:windy .1s infinite alternate}
 .meter{width:200px; height:12px; border:2px solid var(--ink); border-radius:99px; overflow:hidden; background:var(--card)}
 .meter i{display:block; height:100%; width:0; background:var(--tomato); transition:width .1s}
 .cake-actions{display:flex; flex-direction:column; align-items:center; gap:4px}
@@ -143,10 +179,10 @@ b{font-weight:600}
 }
 .slip::before{content:""; position:absolute; top:-12px; left:50%; width:80px; height:22px; margin-left:-40px; background:rgba(242,193,78,.75); transform:rotate(3deg)}
 .slip p{font-size:16px}
-.slip .link{display:block; margin:8px 0 0 auto}
+.slip .btn{display:block; margin:12px 0 0 auto; padding:10px 24px}
 @keyframes slipin{from{transform:translateX(-50%) translateY(40px) rotate(4deg); opacity:0}}
-.floatnext{position:fixed; z-index:4; left:50%; transform:translateX(-50%); bottom:calc(40px + env(safe-area-inset-bottom))}
-.floatnext:active{transform:translateX(-50%) scale(.96)}
+.floatnext{position:fixed; z-index:4; left:50%; top:50%; transform:translate(-50%,-50%); font-size:18px; padding:16px 36px; animation:slipin .4s cubic-bezier(.2,1.4,.4,1)}
+.floatnext:active{transform:translate(-50%,-50%) scale(.96)}
 
 /* ---------- counter ---------- */
 #s-count .inner{text-align:left; align-items:stretch}
@@ -208,6 +244,16 @@ b{font-weight:600}
 .caret{display:inline-block; width:8px; height:16px; background:var(--ink); vertical-align:-3px; animation:blink .8s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
 
+.shore{display:flex; flex-direction:column; align-items:center; gap:8px}
+.bottle{width:min(300px,84vw); cursor:pointer; margin-top:16px}
+.bottle svg{display:block; width:100%; overflow:visible}
+.btl{transform-box:fill-box; transform-origin:center; animation:float 2.4s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-6px) rotate(-4deg)}}
+.cork{transform-box:fill-box; transition:transform .5s cubic-bezier(.3,1.6,.5,1)}
+.bottle.open .cork{transform:translate(30px,-50px) rotate(60deg)}
+.unroll{animation:unroll .6s cubic-bezier(.2,.8,.2,1)}
+@keyframes unroll{from{transform:scaleY(.05) rotate(-3deg); opacity:0}}
+
 /* ---------- gift ---------- */
 .gift{width:200px; cursor:pointer; animation:jiggle 1.8s ease-in-out infinite}
 .gift svg{width:100%; display:block; overflow:visible}
@@ -221,6 +267,7 @@ b{font-weight:600}
 #gStatus{min-height:20px}
 .pending{display:flex; flex-direction:column; align-items:center; gap:16px}
 .pending p{font-size:16px}
+.whisky{width:220px; display:block}
 .stamp2{
   font-family:"Bagel Fat One"; font-size:28px; color:var(--tomato); border:3px solid var(--tomato); border-radius:6px;
   padding:4px 12px 6px; transform:rotate(-6deg); animation:slam2 .45s cubic-bezier(.2,1.4,.4,1) both .3s
@@ -260,35 +307,67 @@ b{font-weight:600}
 
 <!-- 0. start -->
 <section class="scene on" id="s-start">
-  <div class="inner">
-    <p class="small">a website. for exactly one person.</p>
-    <h1 class="big title">psst.<br><span class="wobble">aishwariya.</span></h1>
-    <p class="lead">someone made you a whole website. it's a bit much. sorry in advance.</p>
-    <button class="btn" id="startBtn" data-go="captcha">open it</button>
-    <p class="small">turn your sound on.</p>
+  <svg width="0" height="0" style="position:absolute">
+    <symbol id="star" viewBox="0 0 24 24"><path d="M12 2.5l2.8 6 6.6.8-4.9 4.5 1.3 6.5L12 17.1l-5.8 3.2 1.3-6.5-4.9-4.5 6.6-.8z" stroke="#1B1A17" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  </svg>
+  <div class="deco" aria-hidden="true">
+    <i class="blob b1"></i>
+    <svg class="sun" viewBox="0 0 120 120"><g stroke="#1B1A17" stroke-width="3" stroke-linecap="round"><path d="M60 6v14M60 100v14M6 60h14M100 60h14M22 22l10 10M88 88l10 10M98 22L88 32M32 88L22 98"/></g><circle cx="60" cy="60" r="28" fill="#F2C14E" stroke="#1B1A17" stroke-width="3"/></svg>
+    <svg class="shell" style="left:70%;top:36%" viewBox="0 0 40 36"><path d="M20 33 L6 14 Q20 -4 34 14 Z" fill="#FFFAFB" stroke="#1B1A17" stroke-width="2.5" stroke-linejoin="round"/><path d="M20 33 L13 9 M20 33 V4 M20 33 L27 9" stroke="#1B1A17" stroke-width="2" fill="none"/><rect x="15" y="31" width="10" height="4" rx="2" fill="#FFFAFB" stroke="#1B1A17" stroke-width="2"/></svg>
+    <div class="sea"><svg viewBox="0 0 400 40" preserveAspectRatio="none"><path d="M0 20 Q25 4 50 20 T100 20 T150 20 T200 20 T250 20 T300 20 T350 20 T400 20 V40 H0Z" fill="#9FD3DE" stroke="#1B1A17" stroke-width="2.5"/></svg><svg viewBox="0 0 400 40" preserveAspectRatio="none"><path d="M0 20 Q25 6 50 20 T100 20 T150 20 T200 20 T250 20 T300 20 T350 20 T400 20 V40 H0Z" fill="#6FBBCB" stroke="#1B1A17" stroke-width="2.5"/></svg></div>
+    <svg class="st" style="left:8%;top:9%;width:26px;fill:#F2C14E;--r:-12deg"><use href="#star"/></svg>
+    <svg class="st" style="right:10%;top:15%;width:20px;fill:#7FB7A4;--r:18deg"><use href="#star"/></svg>
+    <svg class="st" style="left:14%;top:44%;width:16px;fill:#E5462B;--r:8deg"><use href="#star"/></svg>
+    <svg class="st" style="right:7%;top:52%;width:28px;fill:#F2C14E;--r:-20deg"><use href="#star"/></svg>
+    <svg class="st" style="left:9%;bottom:14%;width:22px;fill:#7FB7A4;--r:14deg"><use href="#star"/></svg>
+    <svg class="st" style="right:16%;bottom:8%;width:18px;fill:#E5462B;--r:-6deg"><use href="#star"/></svg>
+    <svg class="sq" style="left:62%;top:6%" viewBox="0 0 60 20"><path d="M2 12 Q10 2 18 10 T34 10 T50 10 T58 8" fill="none" stroke="#E5462B" stroke-width="3" stroke-linecap="round"/></svg>
+    <svg class="sq" style="left:4%;top:68%" viewBox="0 0 60 20"><path d="M2 12 Q10 2 18 10 T34 10 T50 10 T58 8" fill="none" stroke="#7FB7A4" stroke-width="3" stroke-linecap="round"/></svg>
   </div>
-</section>
-
-<!-- 1. captcha -->
-<section class="scene" id="s-captcha">
   <div class="inner">
-    <div class="cap" id="cap">
-      <div class="cap-head">
-        <p>quick security check. select all squares with</p>
-        <b>a certified foosball legend</b>
-      </div>
-      <div class="grid" id="grid"></div>
-      <div class="cap-foot">
-        <span id="capMsg">just making sure it's really you.</span>
-        <button class="btn" id="verify">verify</button>
-      </div>
+    <div class="me">
+      <div class="bubble">psst!</div>
+      <svg class="hat" viewBox="0 0 60 70"><path d="M30 4 L54 62 Q30 70 6 62 Z" fill="#7FB7A4" stroke="#1B1A17" stroke-width="3" stroke-linejoin="round"/><path d="M19 32 L41 32 M13 47 L47 47" stroke="#F2C14E" stroke-width="5" stroke-linecap="round"/><circle cx="30" cy="6" r="6" fill="#E5462B" stroke="#1B1A17" stroke-width="3"/></svg>
+      <div class="face" id="face"></div>
     </div>
+    <h1 class="big ask">hey aishwariya!<br>i made you something.</h1>
+    <p class="ask2">wanna see it?</p>
+    <div class="yn">
+      <button class="btn" id="startBtn" data-go="cake">yes</button>
+      <button class="btn no" id="noBtn">no</button>
+    </div>
+    <p class="small">turn your sound on.</p>
   </div>
 </section>
 
 <!-- 2. cake -->
 <section class="scene" id="s-cake">
   <div class="inner">
+    <div class="blowhow hide" id="blowhow" aria-hidden="true">
+      <svg viewBox="0 0 200 110">
+        <path d="M22 100 C14 70 18 30 52 24 C86 30 90 70 82 100 Z" fill="#3B2620"/>
+        <g class="headlean">
+          <circle cx="52" cy="58" r="27" fill="#E2A982" stroke="#1B1A17" stroke-width="2.5"/>
+          <path d="M25 56 C24 34 38 26 52 26 C68 26 80 36 79 54 C70 44 58 40 48 42 C40 44 32 48 25 56 Z" fill="#3B2620"/>
+          <path d="M39 57 q4 3 8 0 M57 57 q4 3 8 0" fill="none" stroke="#1B1A17" stroke-width="2.2" stroke-linecap="round"/>
+          <circle class="cheek" cx="37" cy="66" r="7" fill="#F28FA5" opacity=".75"/>
+          <circle class="cheek" cx="67" cy="66" r="7" fill="#F28FA5" opacity=".75"/>
+          <ellipse cx="52" cy="72" rx="4" ry="5" fill="#8E2B3B" stroke="#1B1A17" stroke-width="2"/>
+        </g>
+        <g class="air" fill="none" stroke="#6FBBCB" stroke-width="3" stroke-linecap="round">
+          <path d="M60 74 Q80 66 92 76 T120 78"/>
+          <path d="M60 80 Q82 78 94 86 T121 86" />
+          <path d="M60 70 Q78 56 92 64 T118 70"/>
+        </g>
+        <g transform="rotate(-24 150 56)">
+          <rect x="128" y="10" width="44" height="86" rx="9" fill="#FFFAFB" stroke="#1B1A17" stroke-width="2.5"/>
+          <rect x="133" y="18" width="34" height="64" rx="4" fill="#FBE0E7"/>
+          <path class="mini-flame" d="M150 40 C145 48 146 56 150 58 C154 56 155 48 150 40 Z" fill="#F2C14E" stroke="#E5462B" stroke-width="1.5"/>
+          <rect x="146" y="58" width="8" height="14" rx="2" fill="#E5462B" stroke="#1B1A17" stroke-width="1.5"/>
+          <circle cx="143" cy="90" r="1.6" fill="#1B1A17"/><circle cx="150" cy="90" r="1.6" fill="#1B1A17"/><circle cx="157" cy="90" r="1.6" fill="#1B1A17"/>
+        </g>
+      </svg>
+    </div>
     <p id="cakeTxt">make a wish first.<br>eyes closed, the whole thing.</p>
     <div class="cake-wrap" id="cakeWrap">
       <div class="cutline" id="cutline"></div>
@@ -322,8 +401,8 @@ b{font-weight:600}
     <p class="big h2">pop them.</p>
     <p>there's a note in every one. <span id="popCount">0/6</span></p>
   </div>
-  <div class="slip hide" id="slip"><p id="slipTxt"></p><button class="link" id="slipClose">ok, next balloon</button></div>
-  <button class="btn floatnext hide" id="bNext" data-go="count">that's all of them</button>
+  <div class="slip hide" id="slip"><p id="slipTxt"></p><button class="btn" id="slipClose">ok, next balloon</button></div>
+  <button class="btn floatnext hide" id="bNext" data-go="foos">keep going</button>
 </section>
 
 <!-- 4. counter -->
@@ -342,8 +421,9 @@ b{font-weight:600}
       <li><span>foosball wins as a team</span><b>a lot</b></li>
       <li><span>karaoke songs i've heard you sing</span><b>0</b></li>
       <li><span>times you've said "aay aay yo"</span><b>not enough</b></li>
+      <li><span>beach days you're owed this year</span><b>at least one</b></li>
     </ul>
-    <button class="btn" data-go="foos">continue</button>
+    <button class="btn" data-go="gift">one last thing</button>
   </div>
 </section>
 
@@ -369,9 +449,26 @@ b{font-weight:600}
 <!-- 6. note -->
 <section class="scene" id="s-note">
   <div class="inner">
-    <div class="strip" id="strip"></div>
-    <div class="paper" id="paper"><p id="noteTxt"></p><span class="caret" id="caret"></span></div>
-    <button class="btn hide" id="nNext" data-go="gift">one more thing</button>
+    <div class="shore" id="shore">
+      <p class="big h2">something washed up.</p>
+      <p>tap the bottle.</p>
+      <div class="bottle" id="bottle">
+        <svg viewBox="0 0 220 120">
+          <g class="btl">
+            <path d="M40 40 H140 Q160 40 168 52 L182 54 V70 L168 72 Q160 84 140 84 H40 Q24 84 24 62 Q24 40 40 40 Z" fill="#BFE3DA" fill-opacity=".85" stroke="#1B1A17" stroke-width="3" stroke-linejoin="round"/>
+            <rect x="52" y="50" width="80" height="24" rx="4" fill="#FFFAFB" stroke="#1B1A17" stroke-width="2" transform="rotate(-4 92 62)"/>
+            <path d="M60 58 H120 M60 66 H108" stroke="#E5462B" stroke-width="2" stroke-linecap="round" transform="rotate(-4 92 62)"/>
+            <path d="M40 48 Q34 52 34 60" stroke="#fff" stroke-width="3" stroke-linecap="round" fill="none"/>
+            <rect class="cork" x="182" y="52" width="16" height="20" rx="3" fill="#B5793F" stroke="#1B1A17" stroke-width="3"/>
+          </g>
+          <path d="M0 96 Q27 84 55 96 T110 96 T165 96 T220 96 V120 H0Z" fill="#9FD3DE" stroke="#1B1A17" stroke-width="2.5"/>
+          <path d="M0 108 Q27 98 55 108 T110 108 T165 108 T220 108 V120 H0Z" fill="#6FBBCB" stroke="#1B1A17" stroke-width="2.5"/>
+        </svg>
+      </div>
+    </div>
+    <div class="strip hide" id="strip"></div>
+    <div class="paper hide" id="paper"><p id="noteTxt"></p><span class="caret" id="caret"></span></div>
+    <button class="btn hide" id="nNext" data-go="count">keep going</button>
   </div>
 </section>
 
@@ -396,8 +493,40 @@ b{font-weight:600}
     <div class="bar hide" id="bar"><i id="barFill"></i><span id="barPct">0%</span></div>
     <p class="small" id="gStatus">&nbsp;</p>
     <div class="pending hide" id="pending">
-      <p>the last 1% isn't online.<br>you get it when you come back.</p>
-      <div class="stamp2">part 2: pending</div>
+      <svg class="whisky" viewBox="0 0 220 170" aria-hidden="true">
+        <defs>
+          <linearGradient id="amber" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#A85A17"/><stop offset=".35" stop-color="#E39A3B"/><stop offset="1" stop-color="#9A4F12"/></linearGradient>
+          <clipPath id="glassClip"><path d="M112 104 L168 104 L164 156 L116 156 Z"/></clipPath>
+        </defs>
+        <ellipse cx="140" cy="160" rx="40" ry="5" fill="rgba(94,26,48,.18)"/>
+        <rect id="stream" x="138" y="72" width="4" height="0" rx="2" fill="#E39A3B">
+          <animate attributeName="height" from="0" to="80" begin="pour.begin+0.9s" dur="0.25s" fill="freeze"/>
+          <animate attributeName="opacity" from="1" to="0" begin="pour.begin+3.1s" dur="0.2s" fill="freeze"/>
+        </rect>
+        <g clip-path="url(#glassClip)">
+          <rect x="108" y="156" width="64" height="0" fill="url(#amber)" opacity=".9">
+            <animate attributeName="y" from="156" to="124" begin="pour.begin+1s" dur="2.2s" fill="freeze"/>
+            <animate attributeName="height" from="0" to="32" begin="pour.begin+1s" dur="2.2s" fill="freeze"/>
+          </rect>
+          <rect x="122" y="122" width="16" height="16" rx="3" fill="#DFF3F5" opacity=".85" transform="rotate(-14 130 130)"/>
+          <rect x="142" y="126" width="15" height="15" rx="3" fill="#DFF3F5" opacity=".85" transform="rotate(18 150 134)"/>
+        </g>
+        <path d="M112 104 L168 104 L164 156 L116 156 Z" fill="rgba(255,255,255,.35)" stroke="#1B1A17" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M118 110 L121 150" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+        <g transform="translate(140 70)">
+          <g transform="rotate(40)">
+            <animateTransform id="pour" attributeName="transform" type="rotate" values="40;140;140;40" keyTimes="0;.2;.8;1" dur="4s" begin="indefinite" fill="freeze"/>
+            <rect x="-7" y="0" width="14" height="26" rx="3" fill="url(#amber)" stroke="#1B1A17" stroke-width="2.5"/>
+            <path d="M-7 24 Q-24 30 -24 42 V100 Q-24 108 -16 108 H16 Q24 108 24 100 V42 Q24 30 7 24 Z" fill="url(#amber)" stroke="#1B1A17" stroke-width="2.5" stroke-linejoin="round"/>
+            <rect x="-18" y="54" width="36" height="34" rx="3" fill="#FFF4E0" stroke="#1B1A17" stroke-width="2"/>
+            <text x="0" y="70" text-anchor="middle" font-family="Bagel Fat One" font-size="11" fill="#5E1A30">No.</text>
+            <text x="0" y="84" text-anchor="middle" font-family="Bagel Fat One" font-size="15" fill="#E5462B">27</text>
+            <path d="M-17 46 V96" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".45"/>
+          </g>
+        </g>
+      </svg>
+      <p>the last 1% is a party.<br>and it's pending. you get it when you come back.</p>
+      <div class="stamp2">party: pending</div>
       <button class="link" onclick="location.reload()">play it all again</button>
     </div>
   </div>
@@ -454,6 +583,32 @@ vinyl.addEventListener('click', () => {
 });
 $('#startBtn').addEventListener('click', () => { vinyl.classList.add('show'); playSong(); });
 
+/* the "no" button runs away */
+const noBtn = $('#noBtn');
+const noLines = ['are you sure?', 'rude', 'try again', 'nope, not an option', 'you\'re being silly', 'just press yes'];
+let noTries = 0;
+function dodge(e){
+  if (e) { e.preventDefault(); e.stopPropagation(); }
+  const r = noBtn.getBoundingClientRect();
+  noBtn.classList.add('loose');
+  noBtn.textContent = noLines[Math.min(noTries, noLines.length - 1)];
+  noTries++;
+  const w = noBtn.offsetWidth, h = noBtn.offsetHeight;
+  let x, y, tries = 0;
+  do {
+    x = 16 + Math.random()*(innerWidth - w - 32);
+    y = 80 + Math.random()*(innerHeight - h - 160);
+    tries++;
+  } while (tries < 20 && Math.abs(x - r.left) < 90 && Math.abs(y - r.top) < 60);
+  if (!noBtn.style.left){ noBtn.style.left = r.left + 'px'; noBtn.style.top = r.top + 'px'; void noBtn.offsetWidth; }
+  noBtn.style.left = x + 'px'; noBtn.style.top = y + 'px';
+  $('#startBtn').style.transform = `scale(${Math.min(1 + noTries*.12, 1.7)})`;
+}
+noBtn.addEventListener('pointerdown', dodge);
+noBtn.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') dodge(e); });
+noBtn.addEventListener('click', dodge);
+$('#startBtn').addEventListener('click', () => noBtn.classList.add('hide'));
+
 /* ---------- confetti ---------- */
 const cv = $('#confetti'), cx = cv.getContext('2d');
 let parts = [], raf = null;
@@ -489,88 +644,86 @@ function tick(){
   raf = parts.length ? requestAnimationFrame(tick) : (cx.clearRect(0,0,innerWidth,innerHeight), null);
 }
 
-/* ---------- captcha ---------- */
-const grid = $('#grid');
-for (let i = 0; i < 9; i++){
-  const t = document.createElement('div');
-  t.className = 'tile';
-  const piece = document.createElement('i');
-  piece.style.backgroundImage = `url(${PHOTO})`;
-  piece.style.backgroundPosition = `${(i % 3)*50}% ${Math.floor(i/3)*50}%`;
-  t.appendChild(piece);
-  t.addEventListener('click', () => t.classList.toggle('sel'));
-  grid.appendChild(t);
-}
-let capTries = 0;
-const capLines = [
-  "you missed some. hint: they're all you.",
-  "still missing some. it's literally all you.",
-  "select. all. of. them. legend.",
-];
-$('#verify').addEventListener('click', () => {
-  const n = grid.querySelectorAll('.sel').length;
-  if (n === 9){
-    $('#capMsg').textContent = 'verified. welcome back, legend.';
-    const r = $('#verify').getBoundingClientRect();
-    burst(r.left + r.width/2, r.top, 50, .7);
-    setTimeout(() => go('cake'), 1100);
-  } else {
-    $('#capMsg').textContent = capLines[Math.min(capTries++, capLines.length-1)];
-    const c = $('#cap'); c.classList.remove('shake'); void c.offsetWidth; c.classList.add('shake');
+/* ---------- cake (soft 3d) ---------- */
+const edgeY = (x, cx, cy, rx, ry) => cy + ry*Math.sqrt(Math.max(0, 1 - ((x - cx)/rx)**2));
+function creamPath(cx, cy, rx, ry, drips){
+  let d = `M${cx-rx} ${cy} A${rx} ${ry} 0 0 1 ${cx+rx} ${cy}`;
+  for (let x = cx + rx; x >= cx - rx - .01; x -= 2){
+    let dep = 4;
+    for (const [c, w, L] of drips){ const k = 1 - ((x - c)/w)**2; if (k > 0) dep = Math.max(dep, 4 + L*Math.sqrt(k)); }
+    d += ` L${x.toFixed(1)} ${(edgeY(x, cx, cy, rx, ry) + dep).toFixed(1)}`;
   }
-});
-
-/* ---------- cake ---------- */
-function drips(x0, x1, y, seed){
-  const deps = [16,6,22,9,13,4,19,8,15,5,24,10,12,7];
-  let d = `M${x0} ${y-12} L${x1} ${y-12} L${x1} ${y}`, x = x1, i = seed;
-  while (x > x0 + .5){
-    const nx = Math.max(x0, x - 18), dep = deps[i++ % deps.length], mid = (x + nx)/2;
-    d += ` Q${x} ${y+dep} ${mid} ${y+dep} Q${nx} ${y+dep} ${nx} ${y}`;
-    x = nx;
-  }
-  return d + ` L${x0} ${y-12} Z`;
+  return d + ' Z';
 }
 function sprinkles(x0, x1, y0, y1, n, seed){
   let s = seed, out = '';
   const rnd = () => (s = (s*9301 + 49297) % 233280) / 233280;
-  const cols = ['#1B1A17','#E5462B','#7FB7A4','#FFFBF2'];
+  const cols = ['#FFFFFF','#E5462B','#7FB7A4','#F2C14E','#5E1A30'];
   for (let i = 0; i < n; i++){
-    const x = x0 + rnd()*(x1-x0), y = y0 + rnd()*(y1-y0), a = Math.floor(rnd()*180);
-    out += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="8" height="3" rx="1.5" fill="${cols[i%4]}" transform="rotate(${a} ${x.toFixed(1)} ${y.toFixed(1)})"/>`;
+    const x = x0 + rnd()*(x1 - x0), y = y0 + rnd()*(y1 - y0), a = Math.floor(rnd()*180);
+    out += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="7" height="2.6" rx="1.3" fill="${cols[i % cols.length]}" transform="rotate(${a} ${x.toFixed(1)} ${y.toFixed(1)})"/>`;
   }
   return out;
 }
-const S = 'stroke="#1B1A17" stroke-width="3" stroke-linejoin="round"';
+const rosette = (x, y, r) => `<g>
+  <ellipse cx="${x}" cy="${y + r*.55}" rx="${r*1.05}" ry="${r*.45}" fill="rgba(140,50,80,.15)"/>
+  <circle cx="${x}" cy="${y}" r="${r}" fill="url(#creamG)"/>
+  <path d="M${x - r*.6} ${y + r*.1} Q${x - r*.2} ${y - r*.9} ${x + r*.55} ${y - r*.1} Q${x + r*.2} ${y + r*.55} ${x - r*.25} ${y + r*.05}" fill="none" stroke="#EDC3D0" stroke-width="1.6" stroke-linecap="round"/></g>`;
+const cherry = (x, y) => `<g>
+  <path d="M${x} ${y - 6} q3 -10 10 -12" fill="none" stroke="#5B7A3A" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="${x}" cy="${y}" r="7.5" fill="url(#cherryG)"/>
+  <ellipse cx="${x - 2.5}" cy="${y - 3}" rx="2.2" ry="1.4" fill="#fff" opacity=".85"/></g>`;
+const candle = (x, ch, grad, dark) => `
+  <text x="${x + 2.5}" y="102.5" text-anchor="middle" font-family="Bagel Fat One" font-size="54" fill="${dark}">${ch}</text>
+  <text x="${x}" y="100" text-anchor="middle" font-family="Bagel Fat One" font-size="54" fill="url(#${grad})">${ch}</text>
+  <line x1="${x}" y1="61" x2="${x}" y2="47" stroke="#3B2620" stroke-width="2.5" stroke-linecap="round"/>`;
 const flame = (x, id, b) => `
   <g class="flame" id="${id}">
-    <circle class="glow" cx="${x}" cy="22" r="16" fill="#F2C14E" opacity=".35"/>
-    <g class="fl ${b ? 'b' : ''}"><path d="M${x} 38 C${x-8} 32 ${x-7} 20 ${x} 8 C${x+7} 20 ${x+8} 32 ${x} 38 Z" fill="#F2C14E" stroke="#E5462B" stroke-width="2"/>
-    <path d="M${x} 35 C${x-3} 31 ${x-3} 26 ${x} 21 C${x+3} 26 ${x+3} 31 ${x} 35 Z" fill="#FFFBF2"/></g>
+    <circle class="glow" cx="${x}" cy="30" r="20" fill="url(#glowG)"/>
+    <g class="fl ${b ? 'b' : ''}"><path d="M${x} 47 C${x-8} 41 ${x-7} 29 ${x} 16 C${x+7} 29 ${x+8} 41 ${x} 47 Z" fill="url(#flameG)"/>
+    <path d="M${x} 44 C${x-3} 40 ${x-3} 35 ${x} 30 C${x+3} 35 ${x+3} 40 ${x} 44 Z" fill="#FFFBEA"/></g>
   </g>
   <g class="smoke" id="${id}s">
-    <circle class="puff" cx="${x}" cy="34" r="5" fill="#9b958a"/>
-    <circle class="puff" cx="${x-2}" cy="32" r="4" fill="#9b958a"/>
-    <circle class="puff" cx="${x+2}" cy="33" r="4.5" fill="#9b958a"/>
+    <circle class="puff" cx="${x}" cy="42" r="5" fill="#b9b2b5"/>
+    <circle class="puff" cx="${x-2}" cy="40" r="4" fill="#b9b2b5"/>
+    <circle class="puff" cx="${x+2}" cy="41" r="4.5" fill="#b9b2b5"/>
   </g>`;
+const lin = (id, stops, x2 = 1, y2 = 0) => `<linearGradient id="${id}" x1="0" y1="0" x2="${x2}" y2="${y2}">${stops.map(([o, c]) => `<stop offset="${o}" stop-color="${c}"/>`).join('')}</linearGradient>`;
 $('#cakeSvg').innerHTML = `
   <defs>
+    ${lin('sidePink', [[0,'#C9617F'],[.16,'#F6B3C5'],[.42,'#F4A3B9'],[.82,'#E3839F'],[1,'#BF5574']])}
+    ${lin('sideVan',  [[0,'#D49E3C'],[.16,'#FBE3A6'],[.42,'#F6D27A'],[.82,'#E8B95A'],[1,'#C98F30']])}
+    ${lin('creamTop', [[0,'#FFFFFF'],[1,'#FBE6EC']], 0, 1)}
+    ${lin('plateG',   [[0,'#FFFFFF'],[1,'#E8DDE1']], 0, 1)}
+    ${lin('c2', [[0,'#FF8A73'],[1,'#D83A22']], 0, 1)}
+    ${lin('c7', [[0,'#B4E3D4'],[1,'#5FA58C']], 0, 1)}
+    ${lin('flameG', [[0,'#FFE27A'],[.6,'#FFB547'],[1,'#F2683C']], 0, 1)}
+    <radialGradient id="creamG" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".65" stop-color="#FCE6EC"/><stop offset="1" stop-color="#EFC6D2"/></radialGradient>
+    <radialGradient id="cherryG" cx=".35" cy=".35" r=".7"><stop offset="0" stop-color="#FF8A80"/><stop offset=".5" stop-color="#E5462B"/><stop offset="1" stop-color="#9C1E10"/></radialGradient>
+    <radialGradient id="glowG"><stop offset="0" stop-color="#FFE9A8" stop-opacity=".9"/><stop offset="1" stop-color="#FFE9A8" stop-opacity="0"/></radialGradient>
+    <filter id="soft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="3"/></filter>
     <clipPath id="clipL"><rect x="-40" y="-40" width="190" height="320"/></clipPath>
     <clipPath id="clipR"><rect x="150" y="-40" width="190" height="320"/></clipPath>
     <g id="cakeArt">
-      <rect x="42" y="134" width="216" height="86" rx="10" fill="#F2A7BB" ${S}/>
-      <path d="${drips(42, 258, 146, 0)}" fill="#FFFBF2" ${S}/>
-      ${sprinkles(54, 246, 176, 210, 22, 7)}
-      <rect x="80" y="84" width="140" height="54" rx="8" fill="#F2C14E" ${S}/>
-      <path d="${drips(80, 220, 95, 4)}" fill="#FFFBF2" ${S}/>
-      ${sprinkles(90, 210, 116, 132, 10, 3)}
-      <line x1="128" y1="48" x2="128" y2="38" stroke="#1B1A17" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="172" y1="48" x2="172" y2="38" stroke="#1B1A17" stroke-width="2.5" stroke-linecap="round"/>
-      <text x="128" y="88" text-anchor="middle" font-family="Bagel Fat One" font-size="50" fill="#E5462B" stroke="#1B1A17" stroke-width="3" paint-order="stroke">2</text>
-      <text x="172" y="88" text-anchor="middle" font-family="Bagel Fat One" font-size="50" fill="#7FB7A4" stroke="#1B1A17" stroke-width="3" paint-order="stroke">7</text>
+      <path d="M42 142 V204 A108 18 0 0 0 258 204 V142 Z" fill="url(#sidePink)"/>
+      <rect x="62" y="150" width="10" height="62" rx="5" fill="#fff" opacity=".22" filter="url(#soft)"/>
+      ${sprinkles(56, 244, 178, 206, 26, 7)}
+      <path d="${creamPath(150, 142, 108, 18, [[52,6,14],[74,5,22],[98,6,10],[121,5,26],[146,6,12],[170,5,20],[193,6,9],[214,5,24],[238,6,13],[254,4,8]])}" fill="url(#creamTop)"/>
+      <ellipse cx="150" cy="142" rx="74" ry="14" fill="rgba(140,50,80,.25)" filter="url(#soft)"/>
+      <path d="M80 96 V138 A70 12 0 0 0 220 138 V96 Z" fill="url(#sideVan)"/>
+      <rect x="92" y="104" width="8" height="40" rx="4" fill="#fff" opacity=".3" filter="url(#soft)"/>
+      ${sprinkles(92, 208, 122, 140, 12, 3)}
+      <path d="${creamPath(150, 96, 70, 12, [[88,5,10],[106,5,18],[126,5,8],[144,5,14],[164,5,20],[184,5,9],[204,5,16],[216,4,7]])}" fill="url(#creamTop)"/>
+      ${candle(128, '2', 'c2', '#9C2A18')}
+      ${candle(172, '7', 'c7', '#3E7C66')}
+      ${cherry(96, 104)}${cherry(204, 104)}
+      ${[60, 84, 108, 132, 168, 192, 216, 240].map(x => rosette(x, edgeY(x, 150, 142, 108, 18) - 1, 8)).join('')}
+      ${cherry(84, edgeY(84, 150, 142, 108, 18) - 8)}${cherry(216, edgeY(216, 150, 142, 108, 18) - 8)}
     </g>
   </defs>
-  <ellipse cx="150" cy="222" rx="138" ry="16" fill="#FFFBF2" ${S}/>
+  <ellipse cx="150" cy="226" rx="128" ry="10" fill="rgba(94,26,48,.22)" filter="url(#soft)"/>
+  <ellipse cx="150" cy="212" rx="136" ry="20" fill="url(#plateG)"/>
+  <ellipse cx="150" cy="208" rx="118" ry="13" fill="#fff" opacity=".7"/>
   <g id="whole"><use href="#cakeArt"/></g>
   <g id="halfL" style="display:none"><g clip-path="url(#clipL)"><use href="#cakeArt"/></g></g>
   <g id="halfR" style="display:none"><g clip-path="url(#clipR)"><use href="#cakeArt"/></g></g>
@@ -583,6 +736,7 @@ let blow = 0, out = 0;
 $('#wishBtn').addEventListener('click', () => {
   $('#wishBtn').classList.add('hide');
   setTxt('now blow. on your phone.<br>like, actually blow on it.');
+  $('#blowhow').classList.remove('hide');
   $('#micBtn').classList.remove('hide');
   $('#puffBtn').classList.remove('hide');
 });
@@ -633,6 +787,7 @@ $('#micBtn').addEventListener('click', async () => {
 
 function candlesOut(){
   setTxt('wow. respectfully,<br>that was a lot of air.');
+  $('#blowhow').classList.add('hide');
   $('#micBtn').classList.add('hide'); $('#puffBtn').classList.add('hide');
   setTimeout(() => { $('#meter').classList.add('hide'); knifePhase(); }, 1800);
 }
@@ -695,7 +850,7 @@ const NOTES = [
   "karaoke status: i have still never heard you sing. not once. this is a formal complaint.",
   "aay aay yo.<br><br>that's it. that's the note. i just like it.",
   "you're 27 now. you're legally allowed to say \"kids these days\" and mean it.",
-  "cake for breakfast today is not optional. those are the rules.",
+  "this coupon is good for one beach day. you pick the beach. i bring the snacks.",
   "this one was empty.<br><br>kidding. happy birthday, you.",
 ];
 let popped = 0, balloonsMade = false;
@@ -712,7 +867,7 @@ onEnter.balloons = () => {
     const b = document.createElement('button');
     b.className = 'balloon'; b.setAttribute('aria-label', 'balloon');
     b.style.left = `calc(${6 + i*15}% - ${i*4}px)`;
-    b.style.setProperty('--d', (11 + (i % 3)*1.7) + 's');
+    b.style.setProperty('--d', (8.5 + (i % 3)*1.2) + 's');
     b.style.setProperty('--delay', (-(i*1.9 + 1.5)) + 's');
     b.innerHTML = balloonSvg(bCols[i]);
     b.addEventListener('pointerdown', () => {
@@ -723,16 +878,30 @@ onEnter.balloons = () => {
       popped++;
       $('#popCount').textContent = `${popped}/6`;
       $('#slipTxt').innerHTML = note;
-      $('#slipClose').textContent = popped < 6 ? 'ok, next balloon' : 'ok';
+      $('#slipClose').textContent = popped < 6 ? 'ok, next balloon' : 'yay';
       const sl = $('#slip'); sl.classList.add('hide'); void sl.offsetWidth; sl.classList.remove('hide');
       setTimeout(() => b.remove(), 400);
+      // bring any off-screen balloon straight back up from the bottom
+      document.querySelectorAll('.balloon:not(.popped)').forEach((o, k) => {
+        const rr = o.getBoundingClientRect();
+        if (rr.bottom < 60 || rr.top > innerHeight - 20){
+          o.style.animation = 'none'; void o.offsetWidth;
+          o.style.setProperty('--delay', (-k*.6) + 's');
+          o.style.animation = '';
+        }
+      });
     });
     sky.appendChild(b);
   });
 };
 $('#slipClose').addEventListener('click', () => {
   $('#slip').classList.add('hide');
-  if (popped >= 6) $('#bNext').classList.remove('hide');
+  if (popped >= 6){
+    document.querySelector('#s-balloons .b-head .big').textContent = 'all six. show-off.';
+    document.querySelector('#s-balloons .b-head p:last-child').textContent = "okay, that's every note.";
+    rain(160);
+    setTimeout(() => $('#bNext').classList.remove('hide'), 500);
+  }
 });
 
 /* ---------- counter ---------- */
@@ -810,7 +979,20 @@ const strip = $('#strip');
   strip.appendChild(p);
 }
 let typed = false, ti = 0;
-onEnter.note = () => {
+$('#bottle').addEventListener('click', () => {
+  if (typed) return;
+  $('#bottle').classList.add('open');
+  const r = $('#bottle').getBoundingClientRect();
+  burst(r.right - 40, r.top + r.height*.4, 30, .5);
+  setTimeout(() => {
+    $('#shore').classList.add('hide');
+    $('#strip').classList.remove('hide');
+    $('#paper').classList.remove('hide');
+    $('#paper').classList.add('unroll');
+    startNote();
+  }, 700);
+});
+function startNote(){
   if (typed) return; typed = true;
   const el = $('#noteTxt');
   const step = () => {
@@ -846,12 +1028,16 @@ $('#gift').addEventListener('click', () => {
     else setTimeout(() => {
       $('#gTitle').textContent = 'yeah, about that.';
       $('#gSub').textContent = '';
+      $('#gift').classList.add('hide'); $('#bar').classList.add('hide'); $('#gStatus').classList.add('hide');
       $('#pending').classList.remove('hide');
+      setTimeout(() => { const p = document.getElementById('pour'); if (p && p.beginElement) p.beginElement(); }, 300);
       rain(90);
     }, 1200);
   };
   requestAnimationFrame(frame);
 });
+// open a screen directly for previews: index.html#go=cake
+if (location.hash.startsWith("#go=") && scenes[location.hash.slice(4)]) go(location.hash.slice(4));
 </script>
 </body>
 </html>
