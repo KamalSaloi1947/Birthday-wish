@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>psst, aishwariya</title>
-<meta name="theme-color" content="#F3EBDD">
+<meta name="theme-color" content="#FDECEF">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Shantell+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#F3EBDD; --paper-2:#EADFCB; --card:#FFFBF2;
+  --paper:#FDECEF; --paper-2:#F8D9E0; --card:#FFFAFB; --btn:#F59AB4; --btn-text:#5E1A30;
   --ink:#1B1A17; --tomato:#E5462B; --butter:#F2C14E; --mint:#7FB7A4; --pink:#F2A7BB;
   --felt:#2F6B4F; --wood:#B5793F;
   color-scheme: light;
@@ -44,11 +44,10 @@ b{font-weight:600}
 .inner{width:100%; max-width:400px; display:flex; flex-direction:column; align-items:center; gap:16px; text-align:center}
 
 .btn{
-  font:inherit; font-weight:700; font-size:16px; color:#8E1F0B; background:var(--pink);
-  border:2px solid var(--tomato); border-radius:999px; padding:12px 28px; cursor:pointer;
-  box-shadow:0 4px 0 var(--tomato); transition:transform .08s, box-shadow .08s;
+  font:inherit; font-weight:700; font-size:16px; color:var(--btn-text); background:var(--btn);
+  border:0; border-radius:999px; padding:14px 30px; cursor:pointer; transition:transform .08s, background .15s;
 }
-.btn:active{transform:translateY(3px); box-shadow:0 1px 0 var(--tomato)}
+.btn:active{transform:scale(.96); background:#EF86A4}
 .link{background:none; border:0; font:inherit; font-size:13px; color:var(--ink); text-decoration:underline; text-underline-offset:3px; opacity:.7; cursor:pointer; padding:8px}
 
 /* ---------- start ---------- */
@@ -111,7 +110,7 @@ b{font-weight:600}
 .stamp{
   position:absolute; z-index:4; top:30%; left:50%; font-family:"Bagel Fat One"; font-size:40px; line-height:1;
   color:var(--tomato); border:4px solid var(--tomato); border-radius:8px; padding:6px 12px 8px; white-space:nowrap;
-  background:rgba(243,235,221,.85); opacity:0; transform:translate(-50%,-50%) rotate(-12deg) scale(2.4); pointer-events:none;
+  background:rgba(253,236,239,.88); opacity:0; transform:translate(-50%,-50%) rotate(-12deg) scale(2.4); pointer-events:none;
 }
 .stamp.show{animation:slam .45s cubic-bezier(.2,1.4,.4,1) forwards}
 @keyframes slam{to{opacity:1; transform:translate(-50%,-50%) rotate(-12deg) scale(1)}}
@@ -147,7 +146,7 @@ b{font-weight:600}
 .slip .link{display:block; margin:8px 0 0 auto}
 @keyframes slipin{from{transform:translateX(-50%) translateY(40px) rotate(4deg); opacity:0}}
 .floatnext{position:fixed; z-index:4; left:50%; transform:translateX(-50%); bottom:calc(40px + env(safe-area-inset-bottom))}
-.floatnext:active{transform:translateX(-50%) translateY(3px)}
+.floatnext:active{transform:translateX(-50%) scale(.96)}
 
 /* ---------- counter ---------- */
 #s-count .inner{text-align:left; align-items:stretch}
