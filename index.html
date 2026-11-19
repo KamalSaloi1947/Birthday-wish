@@ -139,6 +139,24 @@ b{font-weight:600}
 .stamp.show{animation:slam .45s cubic-bezier(.2,1.4,.4,1) forwards}
 @keyframes slam{to{opacity:1; transform:translate(-50%,-50%) rotate(-12deg) scale(1)}}
 
+.wishhow{width:260px; margin-bottom:-12px}
+.pony{transform-box:fill-box; transform-origin:50% 0; animation:pony 1.4s ease-in-out infinite alternate}
+@keyframes pony{from{transform:rotate(-5deg)}to{transform:rotate(6deg)}}
+.fingers{transform-box:fill-box; transform-origin:50% 100%; animation:fing 1.6s ease-in-out infinite}
+@keyframes fing{50%{transform:translateY(-3px) rotate(4deg)}}
+.wishhow svg{display:block; width:100%}
+.w-sway{transform-box:fill-box; transform-origin:50% 100%; animation:wsway 3s ease-in-out infinite}
+@keyframes wsway{50%{transform:rotate(-2deg)}}
+.w-cloud{animation:wfloat 3s ease-in-out infinite}
+@keyframes wfloat{50%{transform:translateY(-4px)}}
+.tb{transform-box:fill-box; transform-origin:center; animation:tbpop 3s ease-in-out infinite}
+.tb2{animation-delay:.2s} .tb3{animation-delay:.4s}
+@keyframes tbpop{0%,100%{transform:scale(.7); opacity:.6}40%,60%{transform:scale(1); opacity:1}}
+.wi{opacity:0; transform-box:fill-box; transform-origin:center; animation:wcycle 6s ease-in-out infinite}
+@keyframes wcycle{0%{opacity:0; transform:scale(.5)}5%{opacity:1; transform:scale(1.08)}9%,22%{opacity:1; transform:scale(1)}26%,100%{opacity:0; transform:scale(.6)}}
+.spk{transform-box:fill-box; transform-origin:center; animation:spk 1.8s ease-in-out infinite}
+.spk.s2{animation-delay:-.6s} .spk.s3{animation-delay:-1.2s}
+@keyframes spk{0%,100%{transform:scale(.3); opacity:.3}50%{transform:scale(1.1) rotate(20deg); opacity:1}}
 .blowhow{width:200px; margin-bottom:-8px; animation:slipin2 .4s ease-out}
 .blowhow svg{display:block; width:100%}
 @keyframes slipin2{from{opacity:0; transform:translateY(-10px)}}
@@ -343,12 +361,77 @@ b{font-weight:600}
 <!-- 2. cake -->
 <section class="scene" id="s-cake">
   <div class="inner">
+    <div class="wishhow" id="wishhow" aria-hidden="true">
+      <svg viewBox="0 0 220 150">
+        <defs>
+          <radialGradient id="skinG" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="#F3C6A3"/><stop offset="1" stop-color="#DDA27B"/></radialGradient>
+          <linearGradient id="topG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7AFC3"/><stop offset="1" stop-color="#EE8AA7"/></linearGradient>
+          <radialGradient id="cloudG" cx=".45" cy=".35" r=".75"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#F6E3EA"/></radialGradient>
+          <filter id="wsoft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3"/></filter>
+        </defs>
+        <g class="w-sway">
+          <path class="pony" d="M86 88 C108 82 116 100 108 118 C104 128 110 136 104 142 C98 128 92 114 91 100 Z" fill="#4A2E24"/>
+          <circle cx="89" cy="90" r="4.5" fill="#E5462B"/>
+          <rect x="64" y="124" width="12" height="14" fill="#D59A74"/>
+          <path d="M34 150 Q36 136 54 133 Q70 140 86 133 Q104 136 106 150 Z" fill="url(#topG)"/>
+          <circle cx="47.5" cy="110" r="4.5" fill="#D59A74"/>
+          <circle cx="92.5" cy="110" r="4.5" fill="#D59A74"/>
+          <circle cx="70" cy="108" r="23" fill="url(#skinG)"/>
+          <circle cx="47.5" cy="116" r="1.8" fill="#F2C14E"/><circle cx="92.5" cy="116" r="1.8" fill="#F2C14E"/>
+          <path d="M47 106 C46 90 58 84 70 84 C84 84 94 92 93 106 C90 98 84 94 76 93 C70 97 60 99 52 97 C49 100 48 103 47 106 Z" fill="#4A2E24"/>
+          <path d="M58 110 q4 3.5 8 0 M74 110 q4 3.5 8 0" fill="none" stroke="#3B2620" stroke-width="2" stroke-linecap="round"/>
+          <ellipse cx="56" cy="117" rx="5" ry="3" fill="#F28FA5" opacity=".55"/>
+          <ellipse cx="84" cy="117" rx="5" ry="3" fill="#F28FA5" opacity=".55"/>
+          <path d="M67 121 q3 2.5 6 0" fill="none" stroke="#8E2B3B" stroke-width="2" stroke-linecap="round"/>
+        </g>
+        <g class="fingers">
+          <path d="M98 150 Q100 140 104 134" fill="none" stroke="#DDA27B" stroke-width="8" stroke-linecap="round"/>
+          <rect x="99" y="102" width="5" height="18" rx="2.5" fill="#E8B48E" transform="rotate(-14 101.5 120)"/>
+          <rect x="102" y="102" width="5" height="18" rx="2.5" fill="#F0BF99" transform="rotate(16 104.5 120)"/>
+          <rect x="97" y="116" width="14" height="16" rx="6" fill="url(#skinG)"/>
+        </g>
+        <circle class="tb tb1" cx="96" cy="84" r="3.5" fill="url(#cloudG)"/>
+        <circle class="tb tb2" cx="107" cy="71" r="5.5" fill="url(#cloudG)"/>
+        <circle class="tb tb3" cx="120" cy="57" r="7.5" fill="url(#cloudG)"/>
+        <g class="w-cloud">
+          <g filter="url(#wsoft)" opacity=".25" fill="#C98AA0"><circle cx="142" cy="48" r="18"/><circle cx="162" cy="38" r="23"/><circle cx="185" cy="48" r="18"/><rect x="134" y="44" width="58" height="20" rx="10"/></g>
+          <g fill="url(#cloudG)"><circle cx="140" cy="44" r="18"/><circle cx="162" cy="33" r="23"/><circle cx="184" cy="44" r="18"/><rect x="128" y="40" width="68" height="22" rx="11"/></g>
+          <g class="wi" style="animation-delay:0s">
+            <path d="M148 46 A14 12 0 0 1 176 46 Z" fill="#E5462B"/><path d="M157 46 Q162 36 167 46" fill="#FFFAFB"/>
+            <path d="M162 46 V58" stroke="#5E1A30" stroke-width="2" stroke-linecap="round"/>
+            <path d="M146 58 Q154 54 162 58 T178 58" fill="none" stroke="#6FBBCB" stroke-width="2.5" stroke-linecap="round"/>
+          </g>
+          <g class="wi" style="animation-delay:-4.5s">
+            <rect x="156" y="28" width="12" height="17" rx="6" fill="#5E1A30"/>
+            <path d="M151 39 Q151 50 162 50 Q173 50 173 39" fill="none" stroke="#5E1A30" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M162 50 V57 M156 57 H168" stroke="#5E1A30" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M176 30 l3 -4 M179 36 h5" stroke="#F2C14E" stroke-width="2.2" stroke-linecap="round"/>
+          </g>
+          <g class="wi" style="animation-delay:-3s">
+            <path d="M162 56 C148 46 148 34 156 32 C160 31 162 34 162 36 C162 34 164 31 168 32 C176 34 176 46 162 56 Z" fill="#E5462B"/>
+            <ellipse cx="156" cy="37" rx="2.5" ry="1.6" fill="#fff" opacity=".8"/>
+          </g>
+          <g class="wi" style="animation-delay:-1.5s">
+            <circle cx="162" cy="43" r="8" fill="#F2C14E"/>
+            <path d="M162 28 V31 M162 55 V58 M147 43 H150 M174 43 H177 M151 32 l2 2 M173 32 l-2 2 M151 54 l2 -2 M173 54 l-2 -2" stroke="#F2C14E" stroke-width="2.2" stroke-linecap="round"/>
+          </g>
+        </g>
+        <path class="spk" d="M30 70 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z" fill="#F2C14E"/>
+        <path class="spk s2" d="M112 112 l1.5 4 4 1.5 -4 1.5 -1.5 4 -1.5 -4 -4 -1.5 4 -1.5z" fill="#F2C14E"/>
+        <path class="spk s3" d="M22 118 l1.2 3 3 1.2 -3 1.2 -1.2 3 -1.2 -3 -3 -1.2 3 -1.2z" fill="#7FB7A4"/>
+      </svg>
+    </div>
     <div class="blowhow hide" id="blowhow" aria-hidden="true">
       <svg viewBox="0 0 200 110">
-        <path d="M22 100 C14 70 18 30 52 24 C86 30 90 70 82 100 Z" fill="#3B2620"/>
+        <path d="M18 110 Q20 94 38 92 Q52 98 66 92 Q84 94 86 110 Z" fill="#F59AB4" stroke="#1B1A17" stroke-width="2.5"/>
+        <rect x="46" y="80" width="12" height="14" fill="#D59A74"/>
         <g class="headlean">
+          <path class="pony" d="M32 40 C10 36 4 58 12 74 C16 84 10 92 16 100 C26 88 30 74 32 60 Z" fill="#4A2E24"/>
+          <circle cx="31" cy="44" r="4.5" fill="#E5462B"/>
+          <circle cx="26" cy="60" r="5" fill="#D59A74" stroke="#1B1A17" stroke-width="2"/>
           <circle cx="52" cy="58" r="27" fill="#E2A982" stroke="#1B1A17" stroke-width="2.5"/>
-          <path d="M25 56 C24 34 38 26 52 26 C68 26 80 36 79 54 C70 44 58 40 48 42 C40 44 32 48 25 56 Z" fill="#3B2620"/>
+          <path d="M25.5 54 C25 36 38 31 52 31 C68 31 79 39 78.5 53 C75 46 69 42 61 41 C54 45 43 46 33 44 C29 47 26.5 50 25.5 54 Z" fill="#4A2E24"/>
+          <circle cx="26" cy="66" r="2" fill="#F2C14E"/>
           <path d="M39 57 q4 3 8 0 M57 57 q4 3 8 0" fill="none" stroke="#1B1A17" stroke-width="2.2" stroke-linecap="round"/>
           <circle class="cheek" cx="37" cy="66" r="7" fill="#F28FA5" opacity=".75"/>
           <circle class="cheek" cx="67" cy="66" r="7" fill="#F28FA5" opacity=".75"/>
@@ -736,6 +819,7 @@ let blow = 0, out = 0;
 $('#wishBtn').addEventListener('click', () => {
   $('#wishBtn').classList.add('hide');
   setTxt('now blow. on your phone.<br>like, actually blow on it.');
+  $('#wishhow').classList.add('hide');
   $('#blowhow').classList.remove('hide');
   $('#micBtn').classList.remove('hide');
   $('#puffBtn').classList.remove('hide');
