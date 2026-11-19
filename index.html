@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#F3EBDD">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Shantell+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 :root{
   --paper:#F3EBDD; --paper-2:#EADFCB; --card:#FFFBF2;
@@ -19,7 +19,7 @@
 html,body{height:100%}
 body{
   background:var(--paper); color:var(--ink);
-  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:15px; line-height:1.5;
+  font-family:"Shantell Sans",system-ui,sans-serif; font-size:16px; line-height:1.5;
   overflow:hidden; -webkit-tap-highlight-color:transparent; user-select:none; -webkit-user-select:none;
 }
 /* paper grain */
@@ -44,8 +44,8 @@ b{font-weight:600}
 .inner{width:100%; max-width:400px; display:flex; flex-direction:column; align-items:center; gap:16px; text-align:center}
 
 .btn{
-  font:inherit; font-weight:600; font-size:15px; color:var(--paper); background:var(--ink);
-  border:0; border-radius:999px; padding:14px 28px; cursor:pointer;
+  font:inherit; font-weight:700; font-size:16px; color:#8E1F0B; background:var(--pink);
+  border:2px solid var(--tomato); border-radius:999px; padding:12px 28px; cursor:pointer;
   box-shadow:0 4px 0 var(--tomato); transition:transform .08s, box-shadow .08s;
 }
 .btn:active{transform:translateY(3px); box-shadow:0 1px 0 var(--tomato)}
@@ -65,8 +65,8 @@ b{font-weight:600}
 .cap-head b{display:block; font-family:"Bagel Fat One"; font-weight:400; font-size:24px; line-height:1.05; margin-top:4px}
 .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:4px; padding:4px; background:var(--card)}
 .tile{position:relative; aspect-ratio:1; overflow:hidden; cursor:pointer; background:var(--paper-2)}
-.tile img{width:100%; height:100%; object-fit:cover; display:block; transition:transform .15s}
-.tile.sel img{transform:scale(.84)}
+.tile i{position:absolute; inset:0; background-size:300% 300%; background-repeat:no-repeat; transition:transform .15s}
+.tile.sel i{transform:scale(.84)}
 .tile.sel::after{
   content:""; position:absolute; top:4px; left:4px; width:22px; height:22px; border-radius:50%;
   background:var(--tomato) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%23FFFBF2' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat;
@@ -124,7 +124,7 @@ b{font-weight:600}
 #s-balloons{align-items:flex-start}
 .b-head{position:relative; z-index:2; text-align:center; padding-top:16px}
 .b-head p{margin-top:8px}
-#popCount{display:inline-block; background:var(--ink); color:var(--paper); padding:0 8px; border-radius:4px; font-weight:600}
+#popCount{display:inline-block; background:var(--tomato); color:var(--card); padding:0 8px; border-radius:4px; font-weight:600}
 .sky{position:absolute; inset:0; overflow:hidden}
 .balloon{
   position:absolute; bottom:-150px; width:68px; height:126px; border:0; background:none; padding:0; cursor:pointer;
@@ -194,13 +194,10 @@ b{font-weight:600}
 #foosLine{min-height:20px}
 
 /* ---------- note ---------- */
-.strip{position:relative; height:132px; width:300px}
-.pol{position:absolute; top:0; width:108px; background:#fff; padding:6px 6px 22px; border:1px solid rgba(27,26,23,.25); box-shadow:0 6px 14px rgba(27,26,23,.18)}
-.pol img{width:100%; aspect-ratio:1; object-fit:cover; display:block; background:var(--paper-2)}
-.pol span{position:absolute; bottom:4px; left:0; right:0; text-align:center; font-size:10px}
-.pol:nth-child(1){left:0; transform:rotate(-8deg)}
-.pol:nth-child(2){left:96px; top:-6px; transform:rotate(3deg); z-index:1}
-.pol:nth-child(3){left:192px; transform:rotate(-2deg)}
+.strip{display:flex; justify-content:center; margin-top:8px}
+.pol{position:relative; width:140px; background:#fff; padding:8px 8px 28px; border:1px solid rgba(27,26,23,.25); box-shadow:0 6px 14px rgba(27,26,23,.18); transform:rotate(-4deg)}
+.pol img{width:100%; aspect-ratio:1; object-fit:cover; object-position:50% 12%; display:block; background:var(--paper-2)}
+.pol span{position:absolute; bottom:5px; left:0; right:0; text-align:center; font-size:13px}
 .pol::before{content:""; position:absolute; top:-9px; left:50%; width:44px; height:16px; margin-left:-22px; background:rgba(127,183,164,.7); transform:rotate(-4deg)}
 .paper{
   width:100%; text-align:left; background:var(--card); padding:20px 20px 20px 36px; min-height:300px; position:relative;
@@ -278,7 +275,7 @@ b{font-weight:600}
   <div class="inner">
     <div class="cap" id="cap">
       <div class="cap-head">
-        <p>quick security check. select all images with</p>
+        <p>quick security check. select all squares with</p>
         <b>a certified foosball legend</b>
       </div>
       <div class="grid" id="grid"></div>
@@ -409,10 +406,8 @@ b{font-weight:600}
 
 <script>
 /* ============ swap these later ============ */
-// her photos: drop files into /photos named 1.jpg ... 9.jpg
-const PHOTOS = [1,2,3,4,5,6,7,8,9].map(n => `photos/${n}.jpg`);
-// placeholders used until real photos exist
-const FALLBACK = [44,65,68,79,90,12,17,26,33].map(n => `https://randomuser.me/api/portraits/women/${n}.jpg`);
+// her photo (square works best)
+const PHOTO = 'photos/aish.jpg';
 const BIRTH = new Date(1999, 10, 20, 0, 0, 0);   // 20 nov 1999
 const BDAY  = new Date(2026, 10, 20, 0, 0, 0);   // the 27th
 /* ========================================== */
@@ -420,11 +415,10 @@ const BDAY  = new Date(2026, 10, 20, 0, 0, 0);   // the 27th
 const $ = s => document.querySelector(s);
 const COLORS = ['#E5462B','#F2C14E','#7FB7A4','#F2A7BB','#1B1A17','#FFFBF2'];
 
-function img(i){
+function img(){
   const im = new Image();
   im.alt = 'aishwariya';
-  im.src = PHOTOS[i];
-  im.onerror = () => { im.onerror = null; im.src = FALLBACK[i]; };
+  im.src = PHOTO;
   return im;
 }
 
@@ -501,7 +495,10 @@ const grid = $('#grid');
 for (let i = 0; i < 9; i++){
   const t = document.createElement('div');
   t.className = 'tile';
-  t.appendChild(img(i));
+  const piece = document.createElement('i');
+  piece.style.backgroundImage = `url(${PHOTO})`;
+  piece.style.backgroundPosition = `${(i % 3)*50}% ${Math.floor(i/3)*50}%`;
+  t.appendChild(piece);
   t.addEventListener('click', () => t.classList.toggle('sel'));
   grid.appendChild(t);
 }
@@ -807,12 +804,12 @@ have the best day.
 
 - your foosball partner`;
 const strip = $('#strip');
-[[0,'certified legend'],[4,'future karaoke star'],[8,'aay aay yo']].forEach(([i, cap]) => {
+{
   const p = document.createElement('div'); p.className = 'pol';
-  p.appendChild(img(i));
-  const s = document.createElement('span'); s.textContent = cap; p.appendChild(s);
+  p.appendChild(img());
+  const s = document.createElement('span'); s.textContent = 'certified legend'; p.appendChild(s);
   strip.appendChild(p);
-});
+}
 let typed = false, ti = 0;
 onEnter.note = () => {
   if (typed) return; typed = true;
