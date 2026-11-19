@@ -1067,7 +1067,7 @@ table.addEventListener('click', () => {
     goals++;
     $('#sUs').textContent = goals;
     $('#foosLine').textContent = foosLines[Math.min(goals-1, foosLines.length-1)];
-    if (goals >= 2) $('#fNext').classList.remove('hide');
+    if (goals >= 1) $('#fNext').classList.remove('hide');
   }, 520);
   setTimeout(() => {
     keeper.classList.remove('dizzy');
