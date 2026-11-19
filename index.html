@@ -1,0 +1,861 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>psst, aishwariya</title>
+<meta name="theme-color" content="#F3EBDD">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F3EBDD; --paper-2:#EADFCB; --card:#FFFBF2;
+  --ink:#1B1A17; --tomato:#E5462B; --butter:#F2C14E; --mint:#7FB7A4; --pink:#F2A7BB;
+  --felt:#2F6B4F; --wood:#B5793F;
+  color-scheme: light;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:15px; line-height:1.5;
+  overflow:hidden; -webkit-tap-highlight-color:transparent; user-select:none; -webkit-user-select:none;
+}
+/* paper grain */
+body::after{
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:90; opacity:.5; mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .1 0 0 0 0 .09 0 0 0 0 .07 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.big{font-family:"Bagel Fat One",system-ui,sans-serif; font-weight:400; line-height:.92; letter-spacing:-.01em}
+.h2{font-size:44px}
+.small{font-size:12px; opacity:.65}
+.hide{display:none !important}
+b{font-weight:600}
+
+/* ---------- scenes ---------- */
+.scene{
+  position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+  padding:24px 16px calc(24px + env(safe-area-inset-bottom));
+  opacity:0; visibility:hidden; transform:translateY(28px);
+  transition:opacity .4s, transform .5s cubic-bezier(.2,.8,.2,1), visibility 0s .5s;
+}
+.scene.on{opacity:1; visibility:visible; transform:none; transition:opacity .5s .2s, transform .6s .2s cubic-bezier(.2,.8,.2,1)}
+.inner{width:100%; max-width:400px; display:flex; flex-direction:column; align-items:center; gap:16px; text-align:center}
+
+.btn{
+  font:inherit; font-weight:600; font-size:15px; color:var(--paper); background:var(--ink);
+  border:0; border-radius:999px; padding:14px 28px; cursor:pointer;
+  box-shadow:0 4px 0 var(--tomato); transition:transform .08s, box-shadow .08s;
+}
+.btn:active{transform:translateY(3px); box-shadow:0 1px 0 var(--tomato)}
+.link{background:none; border:0; font:inherit; font-size:13px; color:var(--ink); text-decoration:underline; text-underline-offset:3px; opacity:.7; cursor:pointer; padding:8px}
+
+/* ---------- start ---------- */
+#s-start .title{font-size:72px}
+#s-start .title span{display:inline-block; color:var(--tomato); transform:rotate(-3deg); margin-top:8px}
+#s-start p.lead{max-width:280px}
+.wobble{animation:wob 2.4s ease-in-out infinite}
+@keyframes wob{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(2deg) translateY(-2px)}}
+
+/* ---------- captcha ---------- */
+.cap{width:100%; max-width:340px; background:var(--card); border:2px solid var(--ink); border-radius:4px; overflow:hidden; text-align:left}
+.cap-head{background:var(--tomato); color:var(--card); padding:16px}
+.cap-head p{font-size:13px}
+.cap-head b{display:block; font-family:"Bagel Fat One"; font-weight:400; font-size:24px; line-height:1.05; margin-top:4px}
+.grid{display:grid; grid-template-columns:repeat(3,1fr); gap:4px; padding:4px; background:var(--card)}
+.tile{position:relative; aspect-ratio:1; overflow:hidden; cursor:pointer; background:var(--paper-2)}
+.tile img{width:100%; height:100%; object-fit:cover; display:block; transition:transform .15s}
+.tile.sel img{transform:scale(.84)}
+.tile.sel::after{
+  content:""; position:absolute; top:4px; left:4px; width:22px; height:22px; border-radius:50%;
+  background:var(--tomato) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%23FFFBF2' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat;
+}
+.cap-foot{display:flex; align-items:center; justify-content:space-between; gap:8px; padding:12px 12px 12px 16px; border-top:2px solid var(--ink)}
+.cap-foot .btn{padding:10px 20px; font-size:14px}
+#capMsg{font-size:12px; line-height:1.35}
+.shake{animation:shake .4s}
+@keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+
+/* ---------- cake ---------- */
+#cakeTxt{min-height:48px; max-width:320px}
+.cake-wrap{position:relative; width:min(280px,78vw); padding-top:72px; touch-action:none}
+#cakeSvg{display:block; width:100%; height:auto; overflow:visible}
+.fl{transform-box:fill-box; transform-origin:50% 100%; animation:flick .14s ease-in-out infinite alternate}
+.fl.b{animation-duration:.19s}
+@keyframes flick{from{transform:scale(1,1) rotate(-2deg)}to{transform:scale(.92,1.08) rotate(2deg)}}
+#cakeSvg.windy .fl{animation:windy .08s infinite alternate}
+@keyframes windy{from{transform:scale(.8,.7) rotate(-18deg)}to{transform:scale(.7,.9) rotate(14deg)}}
+.glow{transform-box:fill-box; transform-origin:center; animation:glow 1.6s ease-in-out infinite alternate}
+@keyframes glow{to{transform:scale(1.25); opacity:.2}}
+.flame{transition:opacity .25s, transform .3s}
+.flame.out{opacity:0; transform:scale(.2)}
+.puff{opacity:0; transform-box:fill-box; transform-origin:center}
+.smoke.go .puff{animation:puff 2.2s ease-out forwards}
+.smoke.go .puff:nth-child(2){animation-delay:.25s}
+.smoke.go .puff:nth-child(3){animation-delay:.5s}
+@keyframes puff{0%{opacity:.55; transform:translate(0,0) scale(.6)}100%{opacity:0; transform:translate(8px,-60px) scale(2.2)}}
+#halfL,#halfR{transform-box:fill-box; transform-origin:50% 100%; transition:transform 1s cubic-bezier(.3,1.5,.5,1)}
+#cakeSvg.split #halfL{transform:translate(-20px,2px) rotate(-6deg)}
+#cakeSvg.split #halfR{transform:translate(20px,2px) rotate(6deg)}
+
+.knife{position:absolute; top:0; left:calc(50% - 14px); width:28px; height:120px; z-index:3; opacity:0; pointer-events:none; transition:opacity .4s}
+.knife.ready{opacity:1}
+.knife.ready svg{animation:drop .6s cubic-bezier(.3,1.6,.5,1)}
+@keyframes drop{from{transform:translateY(-60px) rotate(-30deg)}to{transform:none}}
+.knife.gone{transition:transform .5s ease-in, opacity .5s; opacity:0; transform:translate(140px,40px) rotate(40deg) !important}
+.cutline{position:absolute; left:calc(50% - 1px); width:2px; height:0; background:var(--ink); z-index:2; border-radius:2px; opacity:.85}
+.hint{position:absolute; right:0; top:8px; font-size:12px; line-height:1.3; text-align:left; animation:bob 1s ease-in-out infinite alternate}
+@keyframes bob{to{transform:translateY(8px)}}
+
+.stamp{
+  position:absolute; z-index:4; top:30%; left:50%; font-family:"Bagel Fat One"; font-size:40px; line-height:1;
+  color:var(--tomato); border:4px solid var(--tomato); border-radius:8px; padding:6px 12px 8px; white-space:nowrap;
+  background:rgba(243,235,221,.85); opacity:0; transform:translate(-50%,-50%) rotate(-12deg) scale(2.4); pointer-events:none;
+}
+.stamp.show{animation:slam .45s cubic-bezier(.2,1.4,.4,1) forwards}
+@keyframes slam{to{opacity:1; transform:translate(-50%,-50%) rotate(-12deg) scale(1)}}
+
+.meter{width:200px; height:12px; border:2px solid var(--ink); border-radius:99px; overflow:hidden; background:var(--card)}
+.meter i{display:block; height:100%; width:0; background:var(--tomato); transition:width .1s}
+.cake-actions{display:flex; flex-direction:column; align-items:center; gap:4px}
+
+/* ---------- balloons ---------- */
+#s-balloons{align-items:flex-start}
+.b-head{position:relative; z-index:2; text-align:center; padding-top:16px}
+.b-head p{margin-top:8px}
+#popCount{display:inline-block; background:var(--ink); color:var(--paper); padding:0 8px; border-radius:4px; font-weight:600}
+.sky{position:absolute; inset:0; overflow:hidden}
+.balloon{
+  position:absolute; bottom:-150px; width:68px; height:126px; border:0; background:none; padding:0; cursor:pointer;
+  animation:rise var(--d) linear var(--delay) infinite;
+}
+.balloon svg{width:100%; height:100%; display:block; transform-origin:50% 0; animation:sway 2.8s ease-in-out infinite alternate}
+@keyframes rise{to{transform:translateY(calc(-100vh - 200px))}}
+@keyframes sway{from{transform:rotate(-7deg)}to{transform:rotate(6deg) translateX(4px)}}
+.balloon.popped{pointer-events:none; animation-play-state:paused}
+.balloon.popped svg{animation:popit .22s forwards}
+@keyframes popit{to{transform:scale(1.6); opacity:0}}
+.slip{
+  position:fixed; z-index:5; left:50%; bottom:calc(32px + env(safe-area-inset-bottom)); width:min(340px,calc(100vw - 32px));
+  background:var(--card); border:2px solid var(--ink); padding:24px 20px 12px; text-align:left;
+  transform:translateX(-50%) rotate(-2deg); box-shadow:4px 4px 0 var(--ink);
+  animation:slipin .35s cubic-bezier(.2,1.4,.4,1);
+}
+.slip::before{content:""; position:absolute; top:-12px; left:50%; width:80px; height:22px; margin-left:-40px; background:rgba(242,193,78,.75); transform:rotate(3deg)}
+.slip p{font-size:16px}
+.slip .link{display:block; margin:8px 0 0 auto}
+@keyframes slipin{from{transform:translateX(-50%) translateY(40px) rotate(4deg); opacity:0}}
+.floatnext{position:fixed; z-index:4; left:50%; transform:translateX(-50%); bottom:calc(40px + env(safe-area-inset-bottom))}
+.floatnext:active{transform:translateX(-50%) translateY(3px)}
+
+/* ---------- counter ---------- */
+#s-count .inner{text-align:left; align-items:stretch}
+#bdayState{display:inline-block; align-self:flex-start; background:var(--butter); padding:2px 8px; border-radius:4px; opacity:1; font-weight:600; font-size:12px}
+.days{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap}
+.days .num{font-size:84px; color:var(--tomato)}
+.hms{display:grid; grid-template-columns:repeat(3,1fr); gap:8px}
+.hms div{border:2px solid var(--ink); border-radius:4px; padding:8px 8px 4px; background:var(--card)}
+.hms .big{font-size:36px; display:block; font-variant-numeric:tabular-nums}
+.hms span:last-child{font-size:11px}
+.receipt{list-style:none; border-top:2px dashed var(--ink); padding-top:12px; display:flex; flex-direction:column; gap:8px; font-size:13px}
+.receipt li{display:flex; align-items:baseline; gap:8px}
+.receipt li::after{content:""; order:1; flex:1; border-bottom:2px dotted rgba(27,26,23,.35); transform:translateY(-4px)}
+.receipt li b{order:2; white-space:nowrap}
+.receipt i{font-size:11px; opacity:.6; display:block}
+#s-count .btn{align-self:center; margin-top:8px}
+
+/* ---------- foosball ---------- */
+.table{
+  position:relative; width:min(280px,72vw); aspect-ratio:3/4; background:var(--felt);
+  border:12px solid var(--wood); outline:2px solid var(--ink); border-radius:6px; overflow:hidden; cursor:pointer; touch-action:manipulation;
+}
+.table .line{position:absolute; left:0; right:0; top:50%; height:2px; background:rgba(255,255,255,.45)}
+.table .circle{position:absolute; left:50%; top:50%; width:72px; height:72px; margin:-36px 0 0 -36px; border:2px solid rgba(255,255,255,.45); border-radius:50%}
+.table .goal{position:absolute; top:0; left:32%; right:32%; height:14px; background:var(--ink); border-radius:0 0 4px 4px}
+.rod{position:absolute; left:-12px; right:-12px; height:4px; background:linear-gradient(#ddd,#888); border-top:1px solid var(--ink); border-bottom:1px solid var(--ink)}
+.rod.top{top:20%}
+.rod.bot{top:76%}
+.man{position:absolute; top:50%; width:18px; height:30px; margin:-15px 0 0 -9px; border-radius:6px; border:2px solid var(--ink)}
+.man.them{background:var(--card); left:50%; animation:keep 1.3s ease-in-out infinite alternate}
+@keyframes keep{from{left:34%}to{left:66%}}
+.man.them.dizzy{animation:dizzy .7s ease-out; left:50%}
+@keyframes dizzy{0%{transform:rotate(0)}100%{transform:rotate(720deg)}}
+.man.us{background:var(--tomato)}
+.man.us span{position:absolute; top:32px; left:50%; transform:translateX(-50%); color:var(--card); font-size:10px; font-weight:600}
+.man.us.kick{animation:kick .25s}
+@keyframes kick{50%{transform:scaleY(.5) translateY(-10px)}}
+.ball{position:absolute; left:50%; top:64%; width:16px; height:16px; margin:-8px 0 0 -8px; border-radius:50%; background:#fff; border:2px solid var(--ink); z-index:2}
+.goaltxt{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:"Bagel Fat One"; font-size:64px; color:var(--butter); -webkit-text-stroke:2px var(--ink); opacity:0; transform:scale(.4) rotate(-8deg); pointer-events:none; z-index:3}
+.goaltxt.show{animation:goal .9s ease-out}
+@keyframes goal{30%{opacity:1; transform:scale(1.1) rotate(-8deg)}70%{opacity:1; transform:scale(1) rotate(-8deg)}100%{opacity:0; transform:scale(1) rotate(-8deg)}}
+.score{font-weight:600}
+.score b{display:inline-block; min-width:16px; color:var(--tomato)}
+#foosLine{min-height:20px}
+
+/* ---------- note ---------- */
+.strip{position:relative; height:132px; width:300px}
+.pol{position:absolute; top:0; width:108px; background:#fff; padding:6px 6px 22px; border:1px solid rgba(27,26,23,.25); box-shadow:0 6px 14px rgba(27,26,23,.18)}
+.pol img{width:100%; aspect-ratio:1; object-fit:cover; display:block; background:var(--paper-2)}
+.pol span{position:absolute; bottom:4px; left:0; right:0; text-align:center; font-size:10px}
+.pol:nth-child(1){left:0; transform:rotate(-8deg)}
+.pol:nth-child(2){left:96px; top:-6px; transform:rotate(3deg); z-index:1}
+.pol:nth-child(3){left:192px; transform:rotate(-2deg)}
+.pol::before{content:""; position:absolute; top:-9px; left:50%; width:44px; height:16px; margin-left:-22px; background:rgba(127,183,164,.7); transform:rotate(-4deg)}
+.paper{
+  width:100%; text-align:left; background:var(--card); padding:20px 20px 20px 36px; min-height:300px; position:relative;
+  background-image:linear-gradient(transparent 23px, rgba(229,70,43,.12) 24px); background-size:100% 24px; background-position:0 12px;
+  border:1px solid rgba(27,26,23,.2); box-shadow:0 8px 20px rgba(27,26,23,.12);
+}
+.paper::before{content:""; position:absolute; top:0; bottom:0; left:24px; width:2px; background:rgba(229,70,43,.35)}
+#noteTxt{white-space:pre-wrap; font-size:14px; line-height:24px; display:inline}
+.caret{display:inline-block; width:8px; height:16px; background:var(--ink); vertical-align:-3px; animation:blink .8s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* ---------- gift ---------- */
+.gift{width:200px; cursor:pointer; animation:jiggle 1.8s ease-in-out infinite}
+.gift svg{width:100%; display:block; overflow:visible}
+@keyframes jiggle{0%,60%,100%{transform:rotate(0)}65%{transform:rotate(-6deg)}70%{transform:rotate(6deg)}75%{transform:rotate(-4deg)}80%{transform:rotate(3deg)}}
+.gift.opened{animation:none; cursor:default}
+#lid{transform-box:fill-box; transform-origin:0% 100%; transition:transform .6s cubic-bezier(.3,1.6,.5,1)}
+.gift.opened #lid{transform:translate(-14px,-46px) rotate(-22deg)}
+.bar{position:relative; width:260px; height:28px; border:2px solid var(--ink); border-radius:4px; background:var(--card); overflow:hidden}
+.bar i{position:absolute; inset:0 auto 0 0; width:0; background:repeating-linear-gradient(-45deg,var(--butter) 0 10px,#E9B23A 10px 20px)}
+.bar span{position:relative; display:block; text-align:center; line-height:24px; font-weight:600; font-size:13px}
+#gStatus{min-height:20px}
+.pending{display:flex; flex-direction:column; align-items:center; gap:16px}
+.pending p{font-size:16px}
+.stamp2{
+  font-family:"Bagel Fat One"; font-size:28px; color:var(--tomato); border:3px solid var(--tomato); border-radius:6px;
+  padding:4px 12px 6px; transform:rotate(-6deg); animation:slam2 .45s cubic-bezier(.2,1.4,.4,1) both .3s
+}
+@keyframes slam2{from{opacity:0; transform:rotate(-6deg) scale(2.2)}}
+
+/* ---------- music + confetti ---------- */
+#confetti{position:fixed; inset:0; width:100%; height:100%; pointer-events:none; z-index:80}
+.vinyl{
+  position:fixed; z-index:85; right:16px; bottom:calc(16px + env(safe-area-inset-bottom)); width:48px; height:48px; border-radius:50%;
+  border:0; cursor:pointer; padding:0;
+  background:radial-gradient(circle, var(--tomato) 0 7px, var(--ink) 8px 9px, #2a2925 10px), repeating-radial-gradient(circle, #1B1A17 0 2px, #2c2b27 3px 4px);
+  box-shadow:0 3px 0 rgba(27,26,23,.25); opacity:0; transition:opacity .4s;
+}
+.vinyl.show{opacity:1}
+.vinyl.spin{animation:spin 2.4s linear infinite}
+.vinyl::after{content:""; position:absolute; left:50%; top:50%; width:4px; height:4px; margin:-2px; border-radius:50%; background:var(--paper)}
+.vinyl.off::before{content:""; position:absolute; left:-2px; right:-2px; top:50%; height:3px; background:var(--paper); transform:rotate(-45deg); border:1px solid var(--ink)}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media (max-height:640px){
+  #s-start .title{font-size:60px}
+  .days .num{font-size:64px}
+  .paper{min-height:260px}
+  .strip{transform:scale(.85); margin:-10px 0}
+}
+@media (prefers-reduced-motion:reduce){
+  .wobble,.gift,.hint{animation:none}
+}
+</style>
+</head>
+<body>
+
+<canvas id="confetti"></canvas>
+<audio id="song" src="music/sailor-song.mp3" loop preload="auto"></audio>
+<button class="vinyl" id="vinyl" aria-label="play or pause music"></button>
+
+<!-- 0. start -->
+<section class="scene on" id="s-start">
+  <div class="inner">
+    <p class="small">a website. for exactly one person.</p>
+    <h1 class="big title">psst.<br><span class="wobble">aishwariya.</span></h1>
+    <p class="lead">someone made you a whole website. it's a bit much. sorry in advance.</p>
+    <button class="btn" id="startBtn" data-go="captcha">open it</button>
+    <p class="small">turn your sound on.</p>
+  </div>
+</section>
+
+<!-- 1. captcha -->
+<section class="scene" id="s-captcha">
+  <div class="inner">
+    <div class="cap" id="cap">
+      <div class="cap-head">
+        <p>quick security check. select all images with</p>
+        <b>a certified foosball legend</b>
+      </div>
+      <div class="grid" id="grid"></div>
+      <div class="cap-foot">
+        <span id="capMsg">just making sure it's really you.</span>
+        <button class="btn" id="verify">verify</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. cake -->
+<section class="scene" id="s-cake">
+  <div class="inner">
+    <p id="cakeTxt">make a wish first.<br>eyes closed, the whole thing.</p>
+    <div class="cake-wrap" id="cakeWrap">
+      <div class="cutline" id="cutline"></div>
+      <svg id="cakeSvg" viewBox="0 0 300 250" aria-label="birthday cake with candles 2 and 7"></svg>
+      <div class="knife" id="knife">
+        <svg viewBox="0 0 28 120" width="28" height="120">
+          <rect x="7" y="0" width="14" height="44" rx="5" fill="#1B1A17"/>
+          <circle cx="14" cy="11" r="2" fill="#F3EBDD"/><circle cx="14" cy="31" r="2" fill="#F3EBDD"/>
+          <rect x="4" y="43" width="20" height="6" rx="2" fill="#B9BCBF" stroke="#1B1A17" stroke-width="2"/>
+          <path d="M7 49 H21 V104 Q21 116 10 119 Q7 112 7 104 Z" fill="#DADDE0" stroke="#1B1A17" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M17 54 V104" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <p class="hint hide" id="hint">drag<br>down ↓</p>
+      <div class="stamp" id="stamp">aay aay yo!</div>
+    </div>
+    <div class="meter hide" id="meter"><i id="meterFill"></i></div>
+    <div class="cake-actions" id="cakeActions">
+      <button class="btn" id="wishBtn">done wishing</button>
+      <button class="btn hide" id="micBtn">blow (use my mic)</button>
+      <button class="link hide" id="puffBtn">i'm in public. just give me a button.</button>
+    </div>
+    <button class="btn hide" id="cakeNext" data-go="balloons">okay, now what</button>
+  </div>
+</section>
+
+<!-- 3. balloons -->
+<section class="scene" id="s-balloons">
+  <div class="sky" id="sky"></div>
+  <div class="b-head">
+    <p class="big h2">pop them.</p>
+    <p>there's a note in every one. <span id="popCount">0/6</span></p>
+  </div>
+  <div class="slip hide" id="slip"><p id="slipTxt"></p><button class="link" id="slipClose">ok, next balloon</button></div>
+  <button class="btn floatnext hide" id="bNext" data-go="count">that's all of them</button>
+</section>
+
+<!-- 4. counter -->
+<section class="scene" id="s-count">
+  <div class="inner">
+    <span id="bdayState">&nbsp;</span>
+    <p>you have been alive for</p>
+    <div class="days"><span class="big num" id="cDays">0</span><span class="big" style="font-size:28px">days</span></div>
+    <div class="hms">
+      <div><span class="big" id="cH">00</span><span>hours</span></div>
+      <div><span class="big" id="cM">00</span><span>minutes</span></div>
+      <div><span class="big" id="cS">00</span><span>seconds</span></div>
+    </div>
+    <ul class="receipt">
+      <li><span>heartbeats so far<i>rough math. don't check it.</i></span><b id="beats">0</b></li>
+      <li><span>foosball wins as a team</span><b>a lot</b></li>
+      <li><span>karaoke songs i've heard you sing</span><b>0</b></li>
+      <li><span>times you've said "aay aay yo"</span><b>not enough</b></li>
+    </ul>
+    <button class="btn" data-go="foos">continue</button>
+  </div>
+</section>
+
+<!-- 5. foosball -->
+<section class="scene" id="s-foos">
+  <div class="inner">
+    <p class="big h2">team practice.</p>
+    <p>tap the table to shoot. you know how this goes.</p>
+    <div class="table" id="table">
+      <div class="goal"></div>
+      <div class="line"></div><div class="circle"></div>
+      <div class="rod top"><div class="man them" id="keeper"></div></div>
+      <div class="rod bot"><div class="man us" style="left:32%"><span>you</span></div><div class="man us" style="left:68%"><span>me</span></div></div>
+      <div class="ball" id="ball"></div>
+      <div class="goaltxt" id="goalTxt">GOAL</div>
+    </div>
+    <p class="score">us <b id="sUs">0</b> &nbsp;·&nbsp; everyone else <b>0</b></p>
+    <p class="small" id="foosLine">&nbsp;</p>
+    <button class="btn hide" id="fNext" data-go="note">okay okay, next</button>
+  </div>
+</section>
+
+<!-- 6. note -->
+<section class="scene" id="s-note">
+  <div class="inner">
+    <div class="strip" id="strip"></div>
+    <div class="paper" id="paper"><p id="noteTxt"></p><span class="caret" id="caret"></span></div>
+    <button class="btn hide" id="nNext" data-go="gift">one more thing</button>
+  </div>
+</section>
+
+<!-- 7. gift -->
+<section class="scene" id="s-gift">
+  <div class="inner">
+    <p class="big h2" id="gTitle">your gift.</p>
+    <p id="gSub">tap it. go on.</p>
+    <div class="gift" id="gift">
+      <svg viewBox="0 0 200 190">
+        <rect x="30" y="86" width="140" height="100" rx="4" fill="#E5462B" stroke="#1B1A17" stroke-width="3"/>
+        <rect x="90" y="86" width="20" height="100" fill="#F2C14E" stroke="#1B1A17" stroke-width="3"/>
+        <g id="lid">
+          <rect x="22" y="60" width="156" height="30" rx="4" fill="#E5462B" stroke="#1B1A17" stroke-width="3"/>
+          <rect x="90" y="60" width="20" height="30" fill="#F2C14E" stroke="#1B1A17" stroke-width="3"/>
+          <path d="M100 60 C84 30 56 34 62 50 C66 62 88 62 100 60 Z" fill="#F2C14E" stroke="#1B1A17" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M100 60 C116 30 144 34 138 50 C134 62 112 62 100 60 Z" fill="#F2C14E" stroke="#1B1A17" stroke-width="3" stroke-linejoin="round"/>
+          <circle cx="100" cy="58" r="7" fill="#F2C14E" stroke="#1B1A17" stroke-width="3"/>
+        </g>
+      </svg>
+    </div>
+    <div class="bar hide" id="bar"><i id="barFill"></i><span id="barPct">0%</span></div>
+    <p class="small" id="gStatus">&nbsp;</p>
+    <div class="pending hide" id="pending">
+      <p>the last 1% isn't online.<br>you get it when you come back.</p>
+      <div class="stamp2">part 2: pending</div>
+      <button class="link" onclick="location.reload()">play it all again</button>
+    </div>
+  </div>
+</section>
+
+<script>
+/* ============ swap these later ============ */
+// her photos: drop files into /photos named 1.jpg ... 9.jpg
+const PHOTOS = [1,2,3,4,5,6,7,8,9].map(n => `photos/${n}.jpg`);
+// placeholders used until real photos exist
+const FALLBACK = [44,65,68,79,90,12,17,26,33].map(n => `https://randomuser.me/api/portraits/women/${n}.jpg`);
+const BIRTH = new Date(1999, 10, 20, 0, 0, 0);   // 20 nov 1999
+const BDAY  = new Date(2026, 10, 20, 0, 0, 0);   // the 27th
+/* ========================================== */
+
+const $ = s => document.querySelector(s);
+const COLORS = ['#E5462B','#F2C14E','#7FB7A4','#F2A7BB','#1B1A17','#FFFBF2'];
+
+function img(i){
+  const im = new Image();
+  im.alt = 'aishwariya';
+  im.src = PHOTOS[i];
+  im.onerror = () => { im.onerror = null; im.src = FALLBACK[i]; };
+  return im;
+}
+
+/* ---------- navigation ---------- */
+const scenes = {};
+document.querySelectorAll('.scene').forEach(s => scenes[s.id.slice(2)] = s);
+let cur = 'start';
+const onEnter = {};
+function go(name){
+  scenes[cur].classList.remove('on');
+  cur = name;
+  scenes[name].classList.add('on');
+  if (onEnter[name]) onEnter[name]();
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-go]');
+  if (b) go(b.dataset.go);
+});
+
+/* ---------- music ---------- */
+const song = $('#song'), vinyl = $('#vinyl');
+function fadeIn(){
+  let v = 0; song.volume = 0;
+  const t = setInterval(() => { v = Math.min(.85, v + .05); song.volume = v; if (v >= .85) clearInterval(t); }, 120);
+}
+function playSong(){
+  const p = song.play();
+  if (p) p.then(() => { vinyl.classList.add('spin'); vinyl.classList.remove('off'); fadeIn(); })
+          .catch(() => { vinyl.classList.add('off'); });
+}
+vinyl.addEventListener('click', () => {
+  if (song.paused) playSong();
+  else { song.pause(); vinyl.classList.remove('spin'); vinyl.classList.add('off'); }
+});
+$('#startBtn').addEventListener('click', () => { vinyl.classList.add('show'); playSong(); });
+
+/* ---------- confetti ---------- */
+const cv = $('#confetti'), cx = cv.getContext('2d');
+let parts = [], raf = null;
+function sizeCv(){ const d = devicePixelRatio || 1; cv.width = innerWidth*d; cv.height = innerHeight*d; cx.setTransform(d,0,0,d,0,0); }
+sizeCv(); addEventListener('resize', sizeCv);
+function burst(x, y, n = 120, power = 1){
+  for (let i = 0; i < n; i++){
+    const a = Math.random()*Math.PI*2, sp = (Math.random()*9 + 3)*power;
+    parts.push({ x, y, vx: Math.cos(a)*sp, vy: Math.sin(a)*sp - 6*power, w: 5+Math.random()*6, h: 8+Math.random()*9,
+      r: Math.random()*6.3, vr: (Math.random()-.5)*.35, c: COLORS[i % COLORS.length], t: Math.random()*100, round: Math.random() < .18 });
+  }
+  if (!raf) raf = requestAnimationFrame(tick);
+}
+function rain(n = 140){
+  for (let i = 0; i < n; i++){
+    parts.push({ x: Math.random()*innerWidth, y: -20 - Math.random()*innerHeight*.6, vx: (Math.random()-.5)*2, vy: 2+Math.random()*3,
+      w: 5+Math.random()*6, h: 8+Math.random()*9, r: Math.random()*6.3, vr: (Math.random()-.5)*.3, c: COLORS[i % COLORS.length], t: Math.random()*100, round: Math.random() < .18 });
+  }
+  if (!raf) raf = requestAnimationFrame(tick);
+}
+function tick(){
+  cx.clearRect(0, 0, innerWidth, innerHeight);
+  for (const p of parts){
+    p.vy = Math.min(p.vy + .25, 4.5); p.vx *= .98; p.t++;
+    p.x += p.vx + Math.sin(p.t*.08)*.7; p.y += p.vy; p.r += p.vr;
+    cx.save(); cx.translate(p.x, p.y); cx.rotate(p.r); cx.scale(1, Math.cos(p.t*.12));
+    cx.fillStyle = p.c;
+    if (p.round){ cx.beginPath(); cx.arc(0, 0, p.w*.55, 0, 6.3); cx.fill(); }
+    else cx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+    cx.restore();
+  }
+  parts = parts.filter(p => p.y < innerHeight + 30);
+  raf = parts.length ? requestAnimationFrame(tick) : (cx.clearRect(0,0,innerWidth,innerHeight), null);
+}
+
+/* ---------- captcha ---------- */
+const grid = $('#grid');
+for (let i = 0; i < 9; i++){
+  const t = document.createElement('div');
+  t.className = 'tile';
+  t.appendChild(img(i));
+  t.addEventListener('click', () => t.classList.toggle('sel'));
+  grid.appendChild(t);
+}
+let capTries = 0;
+const capLines = [
+  "you missed some. hint: they're all you.",
+  "still missing some. it's literally all you.",
+  "select. all. of. them. legend.",
+];
+$('#verify').addEventListener('click', () => {
+  const n = grid.querySelectorAll('.sel').length;
+  if (n === 9){
+    $('#capMsg').textContent = 'verified. welcome back, legend.';
+    const r = $('#verify').getBoundingClientRect();
+    burst(r.left + r.width/2, r.top, 50, .7);
+    setTimeout(() => go('cake'), 1100);
+  } else {
+    $('#capMsg').textContent = capLines[Math.min(capTries++, capLines.length-1)];
+    const c = $('#cap'); c.classList.remove('shake'); void c.offsetWidth; c.classList.add('shake');
+  }
+});
+
+/* ---------- cake ---------- */
+function drips(x0, x1, y, seed){
+  const deps = [16,6,22,9,13,4,19,8,15,5,24,10,12,7];
+  let d = `M${x0} ${y-12} L${x1} ${y-12} L${x1} ${y}`, x = x1, i = seed;
+  while (x > x0 + .5){
+    const nx = Math.max(x0, x - 18), dep = deps[i++ % deps.length], mid = (x + nx)/2;
+    d += ` Q${x} ${y+dep} ${mid} ${y+dep} Q${nx} ${y+dep} ${nx} ${y}`;
+    x = nx;
+  }
+  return d + ` L${x0} ${y-12} Z`;
+}
+function sprinkles(x0, x1, y0, y1, n, seed){
+  let s = seed, out = '';
+  const rnd = () => (s = (s*9301 + 49297) % 233280) / 233280;
+  const cols = ['#1B1A17','#E5462B','#7FB7A4','#FFFBF2'];
+  for (let i = 0; i < n; i++){
+    const x = x0 + rnd()*(x1-x0), y = y0 + rnd()*(y1-y0), a = Math.floor(rnd()*180);
+    out += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="8" height="3" rx="1.5" fill="${cols[i%4]}" transform="rotate(${a} ${x.toFixed(1)} ${y.toFixed(1)})"/>`;
+  }
+  return out;
+}
+const S = 'stroke="#1B1A17" stroke-width="3" stroke-linejoin="round"';
+const flame = (x, id, b) => `
+  <g class="flame" id="${id}">
+    <circle class="glow" cx="${x}" cy="22" r="16" fill="#F2C14E" opacity=".35"/>
+    <g class="fl ${b ? 'b' : ''}"><path d="M${x} 38 C${x-8} 32 ${x-7} 20 ${x} 8 C${x+7} 20 ${x+8} 32 ${x} 38 Z" fill="#F2C14E" stroke="#E5462B" stroke-width="2"/>
+    <path d="M${x} 35 C${x-3} 31 ${x-3} 26 ${x} 21 C${x+3} 26 ${x+3} 31 ${x} 35 Z" fill="#FFFBF2"/></g>
+  </g>
+  <g class="smoke" id="${id}s">
+    <circle class="puff" cx="${x}" cy="34" r="5" fill="#9b958a"/>
+    <circle class="puff" cx="${x-2}" cy="32" r="4" fill="#9b958a"/>
+    <circle class="puff" cx="${x+2}" cy="33" r="4.5" fill="#9b958a"/>
+  </g>`;
+$('#cakeSvg').innerHTML = `
+  <defs>
+    <clipPath id="clipL"><rect x="-40" y="-40" width="190" height="320"/></clipPath>
+    <clipPath id="clipR"><rect x="150" y="-40" width="190" height="320"/></clipPath>
+    <g id="cakeArt">
+      <rect x="42" y="134" width="216" height="86" rx="10" fill="#F2A7BB" ${S}/>
+      <path d="${drips(42, 258, 146, 0)}" fill="#FFFBF2" ${S}/>
+      ${sprinkles(54, 246, 176, 210, 22, 7)}
+      <rect x="80" y="84" width="140" height="54" rx="8" fill="#F2C14E" ${S}/>
+      <path d="${drips(80, 220, 95, 4)}" fill="#FFFBF2" ${S}/>
+      ${sprinkles(90, 210, 116, 132, 10, 3)}
+      <line x1="128" y1="48" x2="128" y2="38" stroke="#1B1A17" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="172" y1="48" x2="172" y2="38" stroke="#1B1A17" stroke-width="2.5" stroke-linecap="round"/>
+      <text x="128" y="88" text-anchor="middle" font-family="Bagel Fat One" font-size="50" fill="#E5462B" stroke="#1B1A17" stroke-width="3" paint-order="stroke">2</text>
+      <text x="172" y="88" text-anchor="middle" font-family="Bagel Fat One" font-size="50" fill="#7FB7A4" stroke="#1B1A17" stroke-width="3" paint-order="stroke">7</text>
+    </g>
+  </defs>
+  <ellipse cx="150" cy="222" rx="138" ry="16" fill="#FFFBF2" ${S}/>
+  <g id="whole"><use href="#cakeArt"/></g>
+  <g id="halfL" style="display:none"><g clip-path="url(#clipL)"><use href="#cakeArt"/></g></g>
+  <g id="halfR" style="display:none"><g clip-path="url(#clipR)"><use href="#cakeArt"/></g></g>
+  <g id="flames">${flame(128, 'f1', 0)}${flame(172, 'f2', 1)}</g>`;
+
+const cakeSvg = $('#cakeSvg');
+const setTxt = html => { $('#cakeTxt').innerHTML = html; };
+let blow = 0, out = 0;
+
+$('#wishBtn').addEventListener('click', () => {
+  $('#wishBtn').classList.add('hide');
+  setTxt('now blow. on your phone.<br>like, actually blow on it.');
+  $('#micBtn').classList.remove('hide');
+  $('#puffBtn').classList.remove('hide');
+});
+
+function windy(){ cakeSvg.classList.add('windy'); clearTimeout(windy.t); windy.t = setTimeout(() => cakeSvg.classList.remove('windy'), 220); }
+function addBlow(x){
+  blow = Math.min(1, blow + x);
+  $('#meterFill').style.width = (blow*100) + '%';
+  if (blow >= .45 && out < 1){ out = 1; $('#f1').classList.add('out'); $('#f1s').classList.add('go'); setTxt('one down. keep going.'); }
+  if (blow >= 1 && out < 2){ out = 2; $('#f2').classList.add('out'); $('#f2s').classList.add('go'); candlesOut(); }
+}
+$('#puffBtn').addEventListener('click', () => {
+  $('#meter').classList.remove('hide');
+  windy(); addBlow(.5);
+});
+
+let micStream = null, actx = null;
+$('#micBtn').addEventListener('click', async () => {
+  try {
+    micStream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: false, autoGainControl: false } });
+  } catch (e) {
+    $('#micBtn').classList.add('hide');
+    $('#puffBtn').textContent = 'fine. blow with this button.';
+    setTxt("no mic? that's okay.<br>use the button. still counts.");
+    return;
+  }
+  $('#micBtn').classList.add('hide');
+  $('#meter').classList.remove('hide');
+  setTxt('okay. blow. hard.<br>right into the bottom of your phone.');
+  actx = new (window.AudioContext || window.webkitAudioContext)();
+  actx.resume && actx.resume();
+  const an = actx.createAnalyser(); an.fftSize = 1024;
+  actx.createMediaStreamSource(micStream).connect(an);
+  const buf = new Float32Array(an.fftSize);
+  const samples = []; let base = null, last = performance.now();
+  const loop = now => {
+    const dt = Math.min(.1, (now - last)/1000); last = now;
+    an.getFloatTimeDomainData(buf);
+    let s = 0; for (let i = 0; i < buf.length; i++) s += buf[i]*buf[i];
+    const rms = Math.sqrt(s/buf.length);
+    if (base === null){ samples.push(rms); if (samples.length > 24) base = samples.reduce((a,b) => a+b, 0)/samples.length; }
+    else if (rms > Math.max(.07, base*4)){ windy(); addBlow(dt*1.4); }
+    if (out < 2) requestAnimationFrame(loop);
+    else { micStream.getTracks().forEach(t => t.stop()); actx.close(); }
+  };
+  requestAnimationFrame(loop);
+});
+
+function candlesOut(){
+  setTxt('wow. respectfully,<br>that was a lot of air.');
+  $('#micBtn').classList.add('hide'); $('#puffBtn').classList.add('hide');
+  setTimeout(() => { $('#meter').classList.add('hide'); knifePhase(); }, 1800);
+}
+
+/* knife */
+const wrap = $('#cakeWrap'), knife = $('#knife'), cutline = $('#cutline');
+let knifeOn = false, dragging = false, ty = 0, sy = 0, sty = 0;
+const scale = () => cakeSvg.getBoundingClientRect().width / 300;
+const cakeTop = () => 72 + 84*scale();
+const plateY  = () => 72 + 220*scale();
+const maxTy   = () => plateY() - 118;
+function knifePhase(){
+  setTxt('now cut it.<br>drag the knife all the way down.');
+  knife.classList.add('ready'); $('#hint').classList.remove('hide');
+  knifeOn = true;
+}
+function renderKnife(){
+  knife.style.transform = `translateY(${ty}px)`;
+  const tip = ty + 118, top = cakeTop();
+  cutline.style.top = top + 'px';
+  cutline.style.height = Math.max(0, Math.min(tip, plateY()) - top) + 'px';
+}
+wrap.addEventListener('pointerdown', e => {
+  if (!knifeOn) return;
+  dragging = true; sy = e.clientY; sty = ty;
+  wrap.setPointerCapture(e.pointerId);
+  $('#hint').classList.add('hide');
+});
+wrap.addEventListener('pointermove', e => {
+  if (!dragging) return;
+  ty = Math.max(0, Math.min(maxTy(), sty + (e.clientY - sy)));
+  renderKnife();
+  if (ty >= maxTy()*.92) cutCake();
+});
+wrap.addEventListener('pointerup', () => { dragging = false; });
+wrap.addEventListener('pointercancel', () => { dragging = false; });
+
+function cutCake(){
+  if (!knifeOn) return;
+  knifeOn = false; dragging = false;
+  knife.classList.add('gone');
+  $('#flames').style.display = 'none';
+  setTimeout(() => {
+    cutline.style.opacity = 0;
+    $('#whole').style.display = 'none';
+    $('#halfL').style.display = ''; $('#halfR').style.display = '';
+    requestAnimationFrame(() => requestAnimationFrame(() => cakeSvg.classList.add('split')));
+    const r = cakeSvg.getBoundingClientRect();
+    burst(r.left + r.width/2, r.top + r.height*.5, 160, 1.1);
+    setTimeout(() => rain(160), 300);
+    setTimeout(() => $('#stamp').classList.add('show'), 450);
+    setTxt('officially 27.<br>no take-backs.');
+    setTimeout(() => $('#cakeNext').classList.remove('hide'), 1500);
+  }, 250);
+}
+
+/* ---------- balloons ---------- */
+const NOTES = [
+  "we're undefeated at foosball.<br><br>(we are not. but we're a really good team, and that's the part that counts.)",
+  "karaoke status: i have still never heard you sing. not once. this is a formal complaint.",
+  "aay aay yo.<br><br>that's it. that's the note. i just like it.",
+  "you're 27 now. you're legally allowed to say \"kids these days\" and mean it.",
+  "cake for breakfast today is not optional. those are the rules.",
+  "this one was empty.<br><br>kidding. happy birthday, you.",
+];
+let popped = 0, balloonsMade = false;
+const bCols = ['#E5462B','#F2C14E','#7FB7A4','#F2A7BB','#FFFBF2','#E5462B'];
+const balloonSvg = c => `<svg viewBox="0 0 68 126">
+  <path d="M34 4 C53 4 63 20 63 39 C63 61 47 76 34 78 C21 76 5 61 5 39 C5 20 15 4 34 4 Z" fill="${c}" stroke="#1B1A17" stroke-width="2.5"/>
+  <ellipse cx="21" cy="24" rx="5" ry="9" fill="#fff" opacity=".45" transform="rotate(25 21 24)"/>
+  <path d="M30 78 L38 78 L34 84 Z" fill="${c}" stroke="#1B1A17" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M34 84 C27 95 41 104 32 124" fill="none" stroke="#1B1A17" stroke-width="1.5"/></svg>`;
+onEnter.balloons = () => {
+  if (balloonsMade) return; balloonsMade = true;
+  const sky = $('#sky');
+  NOTES.forEach((note, i) => {
+    const b = document.createElement('button');
+    b.className = 'balloon'; b.setAttribute('aria-label', 'balloon');
+    b.style.left = `calc(${6 + i*15}% - ${i*4}px)`;
+    b.style.setProperty('--d', (11 + (i % 3)*1.7) + 's');
+    b.style.setProperty('--delay', (-(i*1.9 + 1.5)) + 's');
+    b.innerHTML = balloonSvg(bCols[i]);
+    b.addEventListener('pointerdown', () => {
+      if (b.classList.contains('popped')) return;
+      b.classList.add('popped');
+      const r = b.getBoundingClientRect();
+      burst(r.left + r.width/2, r.top + r.height*.3, 36, .6);
+      popped++;
+      $('#popCount').textContent = `${popped}/6`;
+      $('#slipTxt').innerHTML = note;
+      $('#slipClose').textContent = popped < 6 ? 'ok, next balloon' : 'ok';
+      const sl = $('#slip'); sl.classList.add('hide'); void sl.offsetWidth; sl.classList.remove('hide');
+      setTimeout(() => b.remove(), 400);
+    });
+    sky.appendChild(b);
+  });
+};
+$('#slipClose').addEventListener('click', () => {
+  $('#slip').classList.add('hide');
+  if (popped >= 6) $('#bNext').classList.remove('hide');
+});
+
+/* ---------- counter ---------- */
+const pad = n => String(n).padStart(2, '0');
+const fmt = n => n.toLocaleString('en-IN');
+function tickCount(){
+  const now = new Date();
+  const secs = Math.floor((now - BIRTH)/1000);
+  $('#cDays').textContent = fmt(Math.floor(secs/86400));
+  $('#cH').textContent = pad(Math.floor(secs % 86400 / 3600));
+  $('#cM').textContent = pad(Math.floor(secs % 3600 / 60));
+  $('#cS').textContent = pad(secs % 60);
+  $('#beats').textContent = fmt(Math.floor(secs*1.25));
+  const st = $('#bdayState');
+  const end = new Date(BDAY); end.setDate(end.getDate() + 1);
+  if (now < BDAY){
+    const l = Math.floor((BDAY - now)/1000);
+    st.textContent = `your birthday starts in ${pad(Math.floor(l/3600))}:${pad(Math.floor(l%3600/60))}:${pad(l%60)}`;
+  } else if (now < end){
+    st.textContent = "it's your birthday. right now. today.";
+  } else {
+    st.textContent = `your birthday was ${Math.ceil((now - end)/86400000)} day(s) ago. still counts.`;
+  }
+}
+tickCount(); setInterval(tickCount, 1000);
+
+/* ---------- foosball ---------- */
+const table = $('#table'), ball = $('#ball'), keeper = $('#keeper');
+let goals = 0, shooting = false;
+const foosLines = ["GOAL. obviously.", "again. too easy.", "someone should ban us.", "okay, we get it. we're good.", "undefeated. please don't fact check."];
+table.addEventListener('click', () => {
+  if (shooting) return; shooting = true;
+  document.querySelectorAll('.man.us').forEach(m => { m.classList.remove('kick'); void m.offsetWidth; m.classList.add('kick'); });
+  const W = table.clientWidth, H = table.clientHeight;
+  const tx = (Math.random()*.2 - .1)*W;
+  ball.style.transition = 'transform .55s cubic-bezier(.2,.7,.3,1)';
+  ball.style.transform = `translate(${tx}px, ${-H*.62}px)`;
+  setTimeout(() => {
+    keeper.classList.add('dizzy');
+    const g = $('#goalTxt'); g.classList.remove('show'); void g.offsetWidth; g.classList.add('show');
+    const r = table.getBoundingClientRect();
+    burst(r.left + r.width/2 + tx, r.top + 20, 40, .6);
+    goals++;
+    $('#sUs').textContent = goals;
+    $('#foosLine').textContent = foosLines[Math.min(goals-1, foosLines.length-1)];
+    if (goals >= 2) $('#fNext').classList.remove('hide');
+  }, 520);
+  setTimeout(() => {
+    keeper.classList.remove('dizzy');
+    ball.style.transition = 'none'; ball.style.transform = 'none';
+    shooting = false;
+  }, 1300);
+});
+
+/* ---------- note ---------- */
+const NOTE =
+`aishwariya,
+
+happy birthday. 27 looks good on you.
+
+thanks for being the best foosball partner i could ask for. and for getting "aay aay yo" stuck in my head forever. i say it now. people have noticed.
+
+i hope this year is a really good one. you deserve that.
+
+also, karaoke. this year. you're singing. i've waited long enough.
+
+have the best day.
+
+- your foosball partner`;
+const strip = $('#strip');
+[[0,'certified legend'],[4,'future karaoke star'],[8,'aay aay yo']].forEach(([i, cap]) => {
+  const p = document.createElement('div'); p.className = 'pol';
+  p.appendChild(img(i));
+  const s = document.createElement('span'); s.textContent = cap; p.appendChild(s);
+  strip.appendChild(p);
+});
+let typed = false, ti = 0;
+onEnter.note = () => {
+  if (typed) return; typed = true;
+  const el = $('#noteTxt');
+  const step = () => {
+    ti++;
+    el.textContent = NOTE.slice(0, ti);
+    if (ti < NOTE.length){
+      const ch = NOTE[ti-1];
+      setTimeout(step, ch === '\n' ? 200 : ch === '.' || ch === ',' ? 140 : 22 + Math.random()*34);
+    } else {
+      $('#caret').classList.add('hide');
+      setTimeout(() => $('#nNext').classList.remove('hide'), 500);
+    }
+  };
+  setTimeout(step, 700);
+};
+$('#paper').addEventListener('click', () => { if (typed) ti = NOTE.length - 1; });
+
+/* ---------- gift ---------- */
+let giftOpen = false;
+$('#gift').addEventListener('click', () => {
+  if (giftOpen) return; giftOpen = true;
+  $('#gift').classList.add('opened');
+  $('#gSub').textContent = 'opening...';
+  $('#bar').classList.remove('hide');
+  const steps = [[0,'removing price tag...'],[22,'untangling the ribbon...'],[48,'hiding the receipt...'],[72,'almost...'],[90,'very almost...'],[99,'hm. stuck at 99%.']];
+  const t0 = performance.now(), dur = 3600;
+  const frame = now => {
+    const k = Math.min(1, (now - t0)/dur), pct = Math.floor(99*(1 - Math.pow(1 - k, 3)));
+    $('#barFill').style.width = pct + '%';
+    $('#barPct').textContent = pct + '%';
+    $('#gStatus').textContent = steps.filter(s => pct >= s[0]).pop()[1];
+    if (k < 1) requestAnimationFrame(frame);
+    else setTimeout(() => {
+      $('#gTitle').textContent = 'yeah, about that.';
+      $('#gSub').textContent = '';
+      $('#pending').classList.remove('hide');
+      rain(90);
+    }, 1200);
+  };
+  requestAnimationFrame(frame);
+});
+</script>
+</body>
+</html>
