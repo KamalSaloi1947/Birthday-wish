@@ -973,12 +973,7 @@ onEnter.balloons = () => {
 };
 $('#slipClose').addEventListener('click', () => {
   $('#slip').classList.add('hide');
-  if (popped >= 6){
-    document.querySelector('#s-balloons .b-head .big').textContent = 'all six. show-off.';
-    document.querySelector('#s-balloons .b-head p:last-child').textContent = "okay, that's every note.";
-    rain(160);
-    setTimeout(() => $('#bNext').classList.remove('hide'), 500);
-  }
+  if (popped >= 6) go('foos');
 });
 
 /* ---------- counter ---------- */
